@@ -1,0 +1,121 @@
+version: '3'
+
+vars:
+  GO_VERSION: '1.24'
+  GOLANGCI_LINT_VERSION: 'v2.1.5'
+  GCI_VERSION: 'v0.13.6'
+  GOFUMPT_VERSION: 'v0.8.0'
+  BUF_VERSION: '1.53.0'
+  PROTOC_GEN_GO_VERSION: 'v1.36.6'
+  PROTOC_GEN_GO_GRPC_VERSION: 'v1.5.1'
+
+  BIN_DIR: '{{.ROOT_DIR}}/bin'
+  GOLANGCI_LINT: '{{.BIN_DIR}}/golangci-lint'
+  GCI: '{{.BIN_DIR}}/gci'
+  GOFUMPT: '{{.BIN_DIR}}/gofumpt'
+  BUF: '{{.BIN_DIR}}/buf'
+  PROTOC_GEN_GO: '{{.BIN_DIR}}/protoc-gen-go'
+  PROTOC_GEN_GO_GRPC: '{{.BIN_DIR}}/protoc-gen-go-grpc'
+  ENVDIR: '{{.ROOT_DIR}}/deploy/env'
+
+  MODULES: iam
+  SERVICES: iam
+
+tasks:
+  install-formatters:
+    desc: "Installs gci and gofumpt formatters in ./bin"
+    summary: |
+      Checks if gofumpt and gci are in bin bin.
+      If not found installs automatically with specified versions.
+
+      Used:
+        - gofumpt: code formatter Go
+        - gci: import sorter Go
+    cmds:
+      - |
+        [ -f {{.GOFUMPT}} ] || {
+          echo '📦 Installing gofumpt {{.GOFUMPT_VERSION}}...'
+          GOBIN={{.BIN_DIR}} go install mvdan.cc/gofumpt@{{.GOFUMPT_VERSION}}
+        }
+        [ -f {{.GCI}} ] || {
+          echo '📦 Installing gci {{.GCI_VERSION}}...'
+          GOBIN={{.BIN_DIR}} go install github.com/daixiang0/gci@{{.GCI_VERSION}}
+        }
+    status:
+      - test -x {{.GOFUMPT}}
+      - test -x {{.GCI}}
+
+  format:
+    desc: "Formats the entire project using gofumpt + gci, excluding mocks"
+    summary: |
+      Formats all Go files in the project using gofumpt for standardized code style
+      and gci for import sorting, excluding files located in mock directories.
+
+      Tools used:
+        - gofumpt: for consistent Go code formatting
+        - gci: for organizing imports into standard groups
+    deps: [ install-formatters ]
+    cmds:
+      - |
+        echo "🧼 Formatting with gofumpt ..."
+
+        for module in {{.MODULES}}; do
+          if [ -d "$module" ]; then
+            echo "🧼 Formatting $module"
+            find $module -type f -name '*.go' ! -path '*/mocks/*' -exec {{.GOFUMPT}} -extra -w {} +
+          fi
+        done
+      - |
+        echo "🎯 Sorting imports with gci ..."
+
+        for module in {{.MODULES}}; do
+          if [ -d "$module" ]; then
+            echo "🎯 Sorting imports in $module"
+            find $module -type f -name '*.go' ! -path '*/mocks/*' -exec {{.GCI}} write -s standard -s default -s "prefix(github.com/olezhek28/microservices-course-olezhek-solution)" {} +
+          fi
+        done
+
+
+  install-golangci-lint:
+    desc: "Installs golangci-lint into the bin directory"
+    summary: |
+      Checks if golangci-lint exists in the bin directory.
+      If the tool is not found, automatically installs it using go install.
+
+      Version to install: {{.GOLANGCI_LINT_VERSION}}
+    cmds:
+      - |
+        [ -f {{.GOLANGCI_LINT}} ] || {
+          mkdir -p {{.BIN_DIR}}
+          echo "📦 Installing golangci-lint {{.GOLANGCI_LINT_VERSION}}..."
+          GOBIN={{.BIN_DIR}} go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@{{.GOLANGCI_LINT_VERSION}}
+        }
+    status:
+      - test -x {{.GOLANGCI_LINT}}
+
+  lint:
+    desc: "Runs golangci-lint for all modules"
+    summary: |
+      Runs golangci-lint across all project modules.
+      The linter checks the code for adherence to best practices and quality standards.
+      The check also includes security analysis via gosec (built into golangci-lint).
+
+      Dependencies:
+        - install-golangci-lint: automatically installs the linter if missing
+        - format: formats code before linting
+    deps: [ install-golangci-lint ]
+    vars:
+      MODULES: '{{.MODULES}}'
+      GOLANGCI_LINT: '{{.GOLANGCI_LINT}}'
+    cmds:
+      - |
+        set -e
+        ERR=0
+        echo "🔍 Linting all modules ..."
+        for mod in {{.MODULES}}; do
+          if [ -d "$mod" ]; then
+            echo "🔍 Linting $mod module"
+            {{.GOLANGCI_LINT}} run $mod/... --config=.golangci.yml || ERR=1
+          fi
+        done
+        exit $ERR
