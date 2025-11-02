@@ -1,1 +1,1 @@
-package iam_service
+package main

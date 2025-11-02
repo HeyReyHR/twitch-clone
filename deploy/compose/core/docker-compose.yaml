@@ -1,0 +1,78 @@
+services:
+  placeholder:
+    image: alpine
+    command:
+      [ "sh", "-c", "echo 'This is a placeholder service' && sleep infinity" ]
+    networks:
+      - microservices-net
+
+  minio:
+    container_name: minio
+    image: minio/minio:RELEASE.2025-09-07T16-13-09Z-cpuv1
+    volumes:
+      - "minio_media_data:/data"
+    ports:
+      - "${MINIO_PORT}:9000"
+      - "${MINIO_UI_PORT}:9090"
+    networks:
+      - microservices-net
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: "${MINIO_ROOT_USER}"
+      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD}"
+    command: server --console-address ":${MINIO_UI_PORT}" /data
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  minio-init:
+    container_name: minio-init
+    image: minio/mc:RELEASE.2025-08-13T08-35-41Z-cpuv1
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      STREAM_MINIO_ACCESS_KEY: ${STREAM_MINIO_ACCESS_KEY}
+      STREAM_MINIO_SECRET_KEY: ${STREAM_MINIO_SECRET_KEY}
+
+      USER_MINIO_ACCESS_KEY: ${USER_MINIO_ACCESS_KEY}
+      USER_MINIO_SECRET_KEY: ${USER_MINIO_SECRET_KEY}
+
+    networks:
+      - microservices-net
+    entrypoint: >
+      /bin/sh -c "
+      echo 'Waiting for MinIO to be ready...';
+      sleep 5;
+
+      echo 'Configuring MinIO client...';
+      mc alias set myminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
+      
+      echo 'Creating buckets...';
+      mc mb myminio/avatars --ignore-existing;
+      mc mb myminio/streams --ignore-existing;
+      mc mb myminio/banners --ignore-existing;
+
+      echo 'Setting bucket policies (public read for avatars and banners)...';
+      mc anonymous set download myminio/avatars;
+      mc anonymous set download myminio/banners;
+
+      echo 'Streams bucket kept private (requires signed URLs)';
+      
+      echo '=== Creating Service Access Keys ===';
+      mc admin accesskey create myminio ${MINIO_ROOT_USER} --access-key ${STREAM_MINIO_ACCESS_KEY} --secret-key ${STREAM_MINIO_SECRET_KEY};
+      mc admin accesskey create myminio ${MINIO_ROOT_USER} --access-key ${USER_MINIO_ACCESS_KEY} --secret-key ${USER_MINIO_SECRET_KEY};
+      
+      echo 'MinIO initialization complete!';
+      exit 0;
+      "
+    restart: "no"
+
+volumes:
+  minio_media_data:
+networks:
+  microservices-net:
+    name: microservices-net
+    external: false

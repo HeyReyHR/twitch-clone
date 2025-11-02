@@ -1,0 +1,36 @@
+syntax = "proto3";
+import "common/v1/common.proto";
+
+package user.v1;
+
+option go_package = "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/user/v1;user_v1";
+
+service UserService {
+  rpc Register(RegisterRequest) returns(RegisterResponse);
+  rpc GetUser(GetUserRequest) returns(GetUserResponse);
+}
+
+// Register
+message RegisterRequest{
+  string username = 1;
+  string email = 2;
+  string password = 3;
+  string password_confirmation = 4;
+  common.v1.Role role = 5;
+}
+
+// Register
+message RegisterResponse{
+  string user_uuid = 1;
+}
+
+// GetUser
+message GetUserRequest{
+  string user_uuid = 1;
+}
+
+// GetUser
+message GetUserResponse {
+  common.v1.User user = 1;
+}
+

@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package auth.v1;
+
+option go_package = "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/auth/v1;auth_v1";
+
+service AuthService {
+  rpc Login(LoginRequest) returns (LoginResponse);
+
+  rpc GetAccessToken(GetAccessTokenRequest) returns (GetAccessTokenResponse);
+
+  rpc GetRefreshToken(GetRefreshTokenRequest) returns (GetRefreshTokenResponse);
+}
+
+
+// Login
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+// Login
+message LoginResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+// Access
+message GetAccessTokenRequest {
+  string refresh_token = 1;
+}
+
+// Access
+message GetAccessTokenResponse {
+  string access_token = 1;
+}
+
+// Refresh
+message GetRefreshTokenRequest {
+  string refresh_token = 1;
+}
+
+// Refresh
+message GetRefreshTokenResponse {
+  string refresh_token = 1;
+}

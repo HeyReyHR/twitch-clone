@@ -1,0 +1,23 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+package common.v1;
+
+option go_package = "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/common/v1;common_v1";
+
+// User
+message User {
+  string user_id = 1;
+  string username = 2;
+  string email = 3;
+  Role role = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+// Role
+enum Role {
+  UNKNOWN = 0;
+  USER = 1;
+  ADMIN = 2;
+}

@@ -12,6 +12,7 @@ const (
 	NotFoundErrorCode ErrorCode = iota
 	InvalidArgumentErrorCode
 	UnauthenticatedErrorCode
+	InternalErrorCode
 )
 
 type businessError struct {
@@ -55,6 +56,13 @@ func NewUnauthenticatedError(err error) *businessError {
 	}
 }
 
+func NewInternalError(err error) *businessError {
+	return &businessError{
+		code: InternalErrorCode,
+		err:  err,
+	}
+}
+
 func GetBusinessError(err error) *businessError {
 	var businessErr *businessError
 	if errors.As(err, &businessErr) {
@@ -71,6 +79,8 @@ func errorCodeToGRPCCode(code ErrorCode) codes.Code {
 		return codes.InvalidArgument
 	case NotFoundErrorCode:
 		return codes.NotFound
+	case InternalErrorCode:
+		return codes.Internal
 	default:
 		return codes.Unknown
 	}
