@@ -19,3 +19,16 @@ const (
 	USER    Role = "USER"
 	ADMIN   Role = "ADMIN"
 )
+
+type TokenPair struct {
+	AccessToken           string
+	RefreshToken          string
+	AccessTokenExpiresAt  time.Time
+	RefreshTokenExpiresAt time.Time
+}
+
+type Claims struct {
+	UserId   string `json:"user_id"`
+	Username string `json:"username"`
+	Role     Role   `json:"role"`
+}

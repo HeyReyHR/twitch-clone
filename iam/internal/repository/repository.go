@@ -15,6 +15,8 @@ type UserRepository interface {
 }
 
 type AuthRepository interface {
-	Create(ctx context.Context, userId string, refreshToken string, tokenTtl time.Duration) error
-	Get(ctx context.Context, userId string) (string, error)
+	CreateAccessToken(ctx context.Context, userId string, accessToken string, tokenTtl time.Duration) error
+	CreateRefreshToken(ctx context.Context, userId string, refreshToken string, expiresAt time.Duration) (string, error)
+	GetRefreshToken(ctx context.Context, refreshToken string) (model.RefreshToken, error)
+	GetAccessToken(ctx context.Context, userId string) (string, error)
 }

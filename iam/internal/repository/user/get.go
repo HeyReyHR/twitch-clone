@@ -22,9 +22,9 @@ func (r *repository) Get(ctx context.Context, userId string) (repoModel.User, er
 	)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return repoModel.User{}, model.ErrUserNotFound
+			return repoModel.User{}, model.ErrDbEntityNotFound
 		}
-		return repoModel.User{}, model.ErrUserScanFailed
+		return repoModel.User{}, model.ErrDbScanFailed
 	}
 
 	return user, nil

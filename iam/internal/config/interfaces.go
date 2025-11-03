@@ -27,6 +27,8 @@ type RedisConfig interface {
 type JWTTokensConfig interface {
 	AccessTokenTTL() time.Duration
 	RefreshTokenTTL() time.Duration
+	AccessTokenSecret() string
+	RefreshTokenSecret() string
 }
 
 type PasswordConfig interface {

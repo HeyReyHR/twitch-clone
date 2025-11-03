@@ -14,7 +14,7 @@ func (r *repository) Create(ctx context.Context, email string, username string, 
 	currentTime := time.Now()
 	_, err := r.dbConn.Exec(ctx, "INSERT INTO users (user_id, username, email, role, password_hash, created_at, updated_at) VALUES ($1, $2, $3, $4)", userId, username, email, passwordHash, currentTime, currentTime)
 	if err != nil {
-		return "", model.ErrCreateUserFailed
+		return "", model.ErrCreateDbEntityFailed
 	}
 
 	return userId, nil

@@ -12,6 +12,14 @@ type User struct {
 	CreatedAt    time.Time `json:"created_at"`
 }
 
+type RefreshToken struct {
+	Id           string    `json:"id"`
+	UserId       string    `json:"user_id"`
+	RefreshToken string    `json:"refresh_token"`
+	CreatedAt    time.Time `json:"updated_at"`
+	ExpiresAt    time.Time `json:"expires_at"`
+}
+
 type Role string
 
 const (

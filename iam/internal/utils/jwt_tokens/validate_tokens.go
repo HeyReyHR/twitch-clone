@@ -1,0 +1,58 @@
+package jwt_tokens
+
+import (
+	"time"
+
+	"github.com/HeyReyHR/twitch-clone/iam/internal/config"
+	"github.com/HeyReyHR/twitch-clone/iam/internal/model"
+	"github.com/golang-jwt/jwt/v5"
+)
+
+func ValidateRefreshToken(tokenString string) (*model.Claims, error) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, model.ErrMalformedToken
+		}
+		return []byte(config.AppConfig().JWTTokens.RefreshTokenSecret()), nil
+	})
+
+	if err != nil || !token.Valid {
+		return nil, model.ErrMalformedToken
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return nil, model.ErrMalformedToken
+	}
+
+	tokenType, ok := claims["type"].(string)
+	if !ok || tokenType != "refresh" {
+		return nil, model.ErrMalformedToken
+	}
+
+	expiresAt, ok := claims["exp"].(time.Time)
+	if !ok || expiresAt.Before(time.Now()) {
+		return nil, model.ErrMalformedToken
+	}
+
+	userId, ok := claims["user_id"].(string)
+	if !ok {
+		return nil, model.ErrMalformedToken
+	}
+
+	username, ok := claims["username"].(string)
+	if !ok {
+		return nil, model.ErrMalformedToken
+	}
+
+	role, ok := claims["role"].(model.Role)
+	if !ok {
+		return nil, model.ErrMalformedToken
+	}
+
+	return &model.Claims{
+		UserId:   userId,
+		Username: username,
+		Role:     role,
+	}, nil
+}

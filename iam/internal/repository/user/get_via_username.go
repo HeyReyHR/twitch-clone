@@ -23,9 +23,9 @@ func (r *repository) GetViaUsername(ctx context.Context, username string) (repoM
 	)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return repoModel.User{}, model.ErrUserNotFound
+			return repoModel.User{}, model.ErrDbEntityNotFound
 		}
-		return repoModel.User{}, model.ErrUserScanFailed
+		return repoModel.User{}, model.ErrDbScanFailed
 	}
 
 	return user, nil

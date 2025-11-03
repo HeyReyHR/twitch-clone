@@ -7,6 +7,16 @@ import (
 	"github.com/HeyReyHR/twitch-clone/iam/internal/model"
 )
 
+func LoginInput(input string, password string) error {
+	if !isStrongPassword(password) {
+		return model.ErrInvalidCredentials
+	}
+	if !isValidEmail(input) {
+		return model.ErrInvalidEmail
+	}
+	return nil
+}
+
 func RegistrationInput(email string, username string, password string) error {
 	if !isValidEmail(email) {
 		return model.ErrInvalidEmail
