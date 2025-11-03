@@ -99,5 +99,5 @@ formatters:
       sections: # import sort
         - Standard  # std
         - Default   # external dependencies
-        - Prefix(github.com/HeyReyHR/twitch-clone)  # Local project imports
+        - Prefix(github.com/HeyReyHR/twitch-clone/)  # Local project imports
       no-inline-comments: false  # allow comments after imports

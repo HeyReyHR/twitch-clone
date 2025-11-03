@@ -29,5 +29,4 @@ func (r *repository) GetViaUsername(ctx context.Context, username string) (repoM
 	}
 
 	return user, nil
-
 }

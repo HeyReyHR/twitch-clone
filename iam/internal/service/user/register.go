@@ -9,7 +9,7 @@ import (
 	"github.com/HeyReyHR/twitch-clone/iam/internal/utils/validate"
 )
 
-func (s *service) Register(ctx context.Context, email string, username string, role model.Role, password string, passwordConfirmation string) (string, error) {
+func (s *service) Register(ctx context.Context, email, username string, role model.Role, password, passwordConfirmation string) (string, error) {
 	if err := validate.RegistrationInput(email, username, password); err != nil {
 		return "", err
 	}
@@ -37,5 +37,4 @@ func (s *service) Register(ctx context.Context, email string, username string, r
 	}
 
 	return userId, nil
-
 }

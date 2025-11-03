@@ -28,5 +28,4 @@ func (r *repository) Get(ctx context.Context, userId string) (repoModel.User, er
 	}
 
 	return user, nil
-
 }

@@ -28,7 +28,7 @@ func RoleServiceToApi(role model.Role) commonV1.Role {
 	}
 }
 
-func UserServiceToApi(user model.User) *commonV1.User {
+func UserServiceToApi(user *model.User) *commonV1.User {
 	return &commonV1.User{
 		UserId:    user.UserId,
 		Username:  user.Username,
@@ -37,5 +37,4 @@ func UserServiceToApi(user model.User) *commonV1.User {
 		CreatedAt: timestamppb.New(user.CreatedAt),
 		UpdatedAt: timestamppb.New(user.UpdatedAt),
 	}
-
 }

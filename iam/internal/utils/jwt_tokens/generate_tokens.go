@@ -8,13 +8,13 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func GenerateTokenPair(user model.User, accessTokenTtl time.Duration, refreshTokenTtl time.Duration) (*model.TokenPair, error) {
-	accessToken, accessExpiresAt, err := GenerateAccessToken(user, accessTokenTtl)
+func GenerateTokenPair(user model.User, accessTokenTtl, refreshTokenTtl time.Duration) (*model.TokenPair, error) {
+	accessToken, accessExpiresAt, err := GenerateAccessToken(user.UserId, user.Username, user.Role, accessTokenTtl)
 	if err != nil {
 		return nil, err
 	}
 
-	refreshToken, refreshExpiresAt, err := GenerateRefreshToken(user, refreshTokenTtl)
+	refreshToken, refreshExpiresAt, err := GenerateRefreshToken(user.UserId, user.Username, user.Role, refreshTokenTtl)
 	if err != nil {
 		return nil, err
 	}
@@ -27,13 +27,13 @@ func GenerateTokenPair(user model.User, accessTokenTtl time.Duration, refreshTok
 	}, nil
 }
 
-func GenerateAccessToken(user model.User, accessTokenTtl time.Duration) (string, time.Time, error) {
+func GenerateAccessToken(userId string, username string, role model.Role, accessTokenTtl time.Duration) (string, time.Time, error) {
 	expiresAt := time.Now().Add(accessTokenTtl)
 
 	claims := jwt.MapClaims{
-		"user_id":  user.UserId,
-		"username": user.Username,
-		"role":     user.Role,
+		"user_id":  userId,
+		"username": username,
+		"role":     role,
 		"exp":      expiresAt.Unix(),
 		"iat":      time.Now().Unix(),
 		"type":     "access",
@@ -48,13 +48,13 @@ func GenerateAccessToken(user model.User, accessTokenTtl time.Duration) (string,
 	return tokenString, expiresAt, nil
 }
 
-func GenerateRefreshToken(user model.User, refreshTokenTtl time.Duration) (string, time.Time, error) {
+func GenerateRefreshToken(userId string, username string, role model.Role, refreshTokenTtl time.Duration) (string, time.Time, error) {
 	expiresAt := time.Now().Add(refreshTokenTtl)
 
 	claims := jwt.MapClaims{
-		"user_id":  user.UserId,
-		"username": user.Username,
-		"role":     user.Role,
+		"user_id":  userId,
+		"username": username,
+		"role":     role,
 		"exp":      expiresAt.Unix(),
 		"iat":      time.Now().Unix(),
 		"type":     "refresh",

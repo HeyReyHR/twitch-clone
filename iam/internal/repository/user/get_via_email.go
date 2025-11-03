@@ -29,5 +29,4 @@ func (r *repository) GetViaEmail(ctx context.Context, email string) (repoModel.U
 	}
 
 	return user, nil
-
 }

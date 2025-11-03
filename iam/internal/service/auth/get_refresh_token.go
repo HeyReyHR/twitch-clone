@@ -3,7 +3,6 @@ package auth
 import (
 	"context"
 
-	"github.com/HeyReyHR/twitch-clone/iam/internal/repository/convert"
 	"github.com/HeyReyHR/twitch-clone/iam/internal/utils/jwt_tokens"
 )
 
@@ -18,16 +17,21 @@ func (s *service) GetRefreshToken(ctx context.Context, refreshToken string) (str
 		return "", err
 	}
 
-	user, err := s.userRepository.Get(ctx, claims.UserId)
+	newRefreshToken, _, err := jwt_tokens.GenerateRefreshToken(claims.UserId, claims.Username, claims.Role, s.refreshTokenTtl)
 	if err != nil {
 		return "", err
 	}
 
-	refreshToken, _, err = jwt_tokens.GenerateRefreshToken(convert.RepoToServiceUser(user), s.refreshTokenTtl)
-	_, err = s.authRepository.CreateRefreshToken(ctx, claims.UserId, refreshToken, s.refreshTokenTtl)
+	// Should be wrapped in tx but not worth it, if it is an issue ill change that
+	err = s.authRepository.DeleteRefreshToken(ctx, refreshToken)
 	if err != nil {
 		return "", err
 	}
 
-	return refreshToken, nil
+	_, err = s.authRepository.CreateRefreshToken(ctx, claims.UserId, newRefreshToken, s.refreshTokenTtl)
+	if err != nil {
+		return "", err
+	}
+
+	return newRefreshToken, nil
 }

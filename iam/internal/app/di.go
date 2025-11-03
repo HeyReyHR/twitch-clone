@@ -13,14 +13,11 @@ import (
 	"github.com/HeyReyHR/twitch-clone/iam/internal/service"
 	authService "github.com/HeyReyHR/twitch-clone/iam/internal/service/auth"
 	userService "github.com/HeyReyHR/twitch-clone/iam/internal/service/user"
-	"github.com/HeyReyHR/twitch-clone/platform/pkg/cache"
-	"github.com/HeyReyHR/twitch-clone/platform/pkg/cache/redis"
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/closer"
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/logger"
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/migrator"
 	authV1 "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/auth/v1"
 	userV1 "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/user/v1"
-	redigo "github.com/gomodule/redigo/redis"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/stdlib"
 	"go.uber.org/zap"
@@ -37,9 +34,6 @@ type diContainer struct {
 	userRepository repository.UserRepository
 
 	postgresDBConn *pgx.Conn
-
-	redisPool   *redigo.Pool
-	redisClient cache.RedisClient
 }
 
 func NewDiContainer() *diContainer {
@@ -84,7 +78,7 @@ func (d *diContainer) UserService(ctx context.Context) service.UserService {
 
 func (d *diContainer) AuthRepository(ctx context.Context) repository.AuthRepository {
 	if d.authRepository == nil {
-		d.authRepository = authRepository.NewRepository(d.RedisClient(), d.PostgresDBConn(ctx))
+		d.authRepository = authRepository.NewRepository(d.PostgresDBConn(ctx))
 	}
 
 	return d.authRepository
@@ -125,29 +119,4 @@ func (d *diContainer) PostgresDBConn(ctx context.Context) *pgx.Conn {
 	}
 
 	return d.postgresDBConn
-}
-
-func (d *diContainer) RedisPool() *redigo.Pool {
-	if d.redisPool == nil {
-		d.redisPool = &redigo.Pool{
-			MaxIdle:     config.AppConfig().Redis.MaxIdle(),
-			IdleTimeout: config.AppConfig().Redis.IdleTimeout(),
-			DialContext: func(ctx context.Context) (redigo.Conn, error) {
-				return redigo.DialContext(ctx, "tcp", config.AppConfig().Redis.Address())
-			},
-		}
-	}
-
-	return d.redisPool
-}
-
-func (d *diContainer) RedisClient() cache.RedisClient {
-	if d.redisClient == nil {
-		d.redisClient = redis.NewClient(
-			d.RedisPool(),
-			logger.Logger(),
-			config.AppConfig().Redis.ConnectionTimeout())
-	}
-
-	return d.redisClient
 }

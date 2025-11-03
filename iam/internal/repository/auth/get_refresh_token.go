@@ -9,9 +9,8 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func (r *repository) Get(ctx context.Context, refreshToken string) (repoModel.RefreshToken, error) {
+func (r *repository) GetRefreshToken(ctx context.Context, refreshToken string) (repoModel.RefreshToken, error) {
 	var token repoModel.RefreshToken
-
 	err := r.dbConn.QueryRow(ctx, "SELECT id, user_id, refresh_token, created_at, expires_at FROM refresh_tokens WHERE refresh_token = $1", refreshToken).Scan(
 		&token.Id,
 		&token.UserId,
@@ -27,5 +26,4 @@ func (r *repository) Get(ctx context.Context, refreshToken string) (repoModel.Re
 	}
 
 	return token, nil
-
 }

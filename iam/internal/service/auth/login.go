@@ -12,7 +12,7 @@ import (
 	"github.com/HeyReyHR/twitch-clone/iam/internal/utils/validate"
 )
 
-func (s *service) Login(ctx context.Context, login string, password string) (*model.TokenPair, error) {
+func (s *service) Login(ctx context.Context, login, password string) (*model.TokenPair, error) {
 	var user repoModel.User
 	var tokens *model.TokenPair
 	err := validate.LoginInput(login, password)
@@ -48,9 +48,6 @@ func (s *service) Login(ctx context.Context, login string, password string) (*mo
 		return nil, err
 	}
 
-	if err = s.authRepository.CreateAccessToken(ctx, user.UserId, tokens.AccessToken, s.accessTokenTtl); err != nil {
-		return nil, err
-	}
 	if _, err = s.authRepository.CreateRefreshToken(ctx, user.UserId, tokens.RefreshToken, s.refreshTokenTtl); err != nil {
 		return nil, err
 	}

@@ -17,13 +17,6 @@ type PostgresConfig interface {
 	MigrationsDir() string
 }
 
-type RedisConfig interface {
-	Address() string
-	ConnectionTimeout() time.Duration
-	MaxIdle() int
-	IdleTimeout() time.Duration
-}
-
 type JWTTokensConfig interface {
 	AccessTokenTTL() time.Duration
 	RefreshTokenTTL() time.Duration

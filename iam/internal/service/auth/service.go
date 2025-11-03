@@ -13,7 +13,7 @@ type service struct {
 	refreshTokenTtl time.Duration
 }
 
-func NewService(authRepository repository.AuthRepository, userRepository repository.UserRepository, accessTokenTtl time.Duration, refreshTokenTtl time.Duration) *service {
+func NewService(authRepository repository.AuthRepository, userRepository repository.UserRepository, accessTokenTtl, refreshTokenTtl time.Duration) *service {
 	return &service{
 		authRepository:  authRepository,
 		userRepository:  userRepository,

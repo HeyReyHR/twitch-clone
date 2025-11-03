@@ -13,7 +13,6 @@ type config struct {
 	Logger    LoggerConfig
 	IamGRPC   ServiceConfig
 	Postgres  PostgresConfig
-	Redis     RedisConfig
 	JWTTokens JWTTokensConfig
 	Password  PasswordConfig
 }
@@ -39,11 +38,6 @@ func Load(path ...string) error {
 		return err
 	}
 
-	redisCfg, err := env.NewRedisConfig()
-	if err != nil {
-		return err
-	}
-
 	jwtTokensCfg, err := env.NewJWTTokensConfig()
 	if err != nil {
 		return err
@@ -58,7 +52,6 @@ func Load(path ...string) error {
 		Logger:    loggerCfg,
 		IamGRPC:   iamCfg,
 		Postgres:  postgresCfg,
-		Redis:     redisCfg,
 		JWTTokens: jwtTokensCfg,
 		Password:  passwordCfg,
 	}

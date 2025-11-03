@@ -34,14 +34,8 @@ var (
 
 // PostgreSQL errors
 var (
+	ErrDeletionFailed       = platformErrors.NewInternalError(errors.New("could not delete entity"))
 	ErrDbScanFailed         = platformErrors.NewInternalError(errors.New("db scan failed"))
 	ErrDbEntityNotFound     = platformErrors.NewNotFoundError(errors.New("db entity not found"))
 	ErrCreateDbEntityFailed = platformErrors.NewInternalError(errors.New("create entity failed"))
-)
-
-// Redis errors
-var (
-	ErrRedisEditCacheDbFailed = platformErrors.NewInternalError(errors.New("err while editing cache table"))
-	ErrRedisCacheNotFound     = platformErrors.NewInternalError(errors.New("cache not found failed"))
-	ErrRedisGetCacheFailed    = platformErrors.NewInternalError(errors.New("get cache failed"))
 )

@@ -115,7 +115,7 @@ func (a *App) initGRPCServer(ctx context.Context) error {
 }
 
 func (a *App) runGRPCServer(ctx context.Context) error {
-	logger.Info(ctx, fmt.Sprintf("🚀 gRPC IamService server listening on %s", config.AppConfig().IamGRPC.Address()))
+	logger.Info(ctx, fmt.Sprintf("🚀 IamService server listening on %s", config.AppConfig().IamGRPC.Address()))
 
 	err := a.grpcServer.Serve(a.listener)
 	if err != nil {
