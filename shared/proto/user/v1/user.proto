@@ -21,12 +21,12 @@ message RegisterRequest{
 
 // Register
 message RegisterResponse{
-  string user_uuid = 1;
+  string user_id = 1;
 }
 
 // GetUser
 message GetUserRequest{
-  string user_uuid = 1;
+  string user_id = 1;
 }
 
 // GetUser

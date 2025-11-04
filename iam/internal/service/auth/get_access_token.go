@@ -11,7 +11,6 @@ func (s *service) GetAccessToken(ctx context.Context, refreshToken string) (stri
 	if err != nil {
 		return "", err
 	}
-
 	_, err = s.authRepository.GetRefreshToken(ctx, refreshToken)
 	if err != nil {
 		return "", err

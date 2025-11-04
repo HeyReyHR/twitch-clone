@@ -22,7 +22,7 @@ func (s *service) Register(ctx context.Context, email, username string, role mod
 		return "", model.ErrEmailAlreadyTaken
 	}
 
-	if _, err := s.repository.GetViaUsername(ctx, email); err == nil {
+	if _, err := s.repository.GetViaUsername(ctx, username); err == nil {
 		return "", model.ErrUsernameAlreadyTaken
 	}
 

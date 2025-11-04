@@ -15,7 +15,7 @@ func (r *repository) GetViaEmail(ctx context.Context, email string) (repoModel.U
 	err := r.dbConn.QueryRow(ctx, "SELECT user_id, username, email, role, password_hash, created_at, updated_at FROM users WHERE email = $1", email).Scan(
 		&user.UserId,
 		&user.Username,
-		&user.UserId,
+		&user.Email,
 		&user.Role,
 		&user.PasswordHash,
 		&user.CreatedAt,

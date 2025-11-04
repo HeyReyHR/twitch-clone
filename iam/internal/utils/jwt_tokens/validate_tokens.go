@@ -15,7 +15,6 @@ func ValidateRefreshToken(tokenString string) (*model.Claims, error) {
 		}
 		return []byte(config.AppConfig().JWTTokens.RefreshTokenSecret()), nil
 	})
-
 	if err != nil || !token.Valid {
 		return nil, model.ErrMalformedToken
 	}
@@ -30,8 +29,13 @@ func ValidateRefreshToken(tokenString string) (*model.Claims, error) {
 		return nil, model.ErrMalformedToken
 	}
 
-	expiresAt, ok := claims["exp"].(time.Time)
-	if !ok || expiresAt.Before(time.Now()) {
+	exp, ok := claims["exp"].(float64)
+	if !ok {
+		return nil, model.ErrMalformedToken
+	}
+
+	expiresAt := time.Unix(int64(exp), 0)
+	if time.Now().After(expiresAt) {
 		return nil, model.ErrMalformedToken
 	}
 
@@ -45,8 +49,13 @@ func ValidateRefreshToken(tokenString string) (*model.Claims, error) {
 		return nil, model.ErrMalformedToken
 	}
 
-	role, ok := claims["role"].(model.Role)
+	roleToken, ok := claims["role"].(string)
 	if !ok {
+		return nil, model.ErrMalformedToken
+	}
+
+	role := model.Role(roleToken)
+	if role != model.USER && role != model.ADMIN {
 		return nil, model.ErrMalformedToken
 	}
 

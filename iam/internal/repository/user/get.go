@@ -15,7 +15,7 @@ func (r *repository) Get(ctx context.Context, userId string) (repoModel.User, er
 	err := r.dbConn.QueryRow(ctx, "SELECT user_id, username, email, role, created_at, updated_at FROM users WHERE user_id = $1", userId).Scan(
 		&user.UserId,
 		&user.Username,
-		&user.UserId,
+		&user.Email,
 		&user.Role,
 		&user.CreatedAt,
 		&user.UpdatedAt,

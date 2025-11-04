@@ -168,7 +168,6 @@ tasks:
     cmds:
       - echo "[task] 🚀 Setting up core containers"
       - docker compose up --build --detach
-
   down-core:
     desc: Stop and delete core containers
     dir: deploy/compose/core
@@ -182,10 +181,22 @@ tasks:
     cmds:
       - echo "[task] 📦 Setting up Media"
       - docker compose up --build --detach
-
   down-media:
     desc: Stop and delete media
     dir: deploy/compose/media
     cmds:
       - echo "[task] 🛑 Stopping Media"
+      - docker compose down --volumes
+
+  up-iam:
+    desc: up iam service and its deps
+    dir: deploy/compose/iam
+    cmds:
+      - echo "[task] 📦 Setting up Iam"
+      - docker compose up --build --detach
+  down-iam:
+    desc: Stop and delete media
+    dir: deploy/compose/iam
+    cmds:
+      - echo "[task] 🛑 Stopping Iam"
       - docker compose down --volumes

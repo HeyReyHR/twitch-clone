@@ -21,22 +21,6 @@ services:
     networks:
       - microservices-net
 
-  redis:
-    image: redis:7.2.5-alpine3.20
-    container_name: iam-redis
-    env_file:
-      - .env
-    ports:
-      - "${EXTERNAL_REDIS_PORT}:6379"
-    healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-    networks:
-      - microservices-net
-
 volumes:
   order_data:
 

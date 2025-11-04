@@ -15,7 +15,7 @@ func (r *repository) GetViaUsername(ctx context.Context, username string) (repoM
 	err := r.dbConn.QueryRow(ctx, "SELECT user_id, username, email, role, password_hash, created_at, updated_at FROM users WHERE username = $1", username).Scan(
 		&user.UserId,
 		&user.Username,
-		&user.UserId,
+		&user.Email,
 		&user.Role,
 		&user.PasswordHash,
 		&user.CreatedAt,

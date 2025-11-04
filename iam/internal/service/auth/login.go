@@ -29,15 +29,16 @@ func (s *service) Login(ctx context.Context, login, password string) (*model.Tok
 				return nil, model.ErrDbScanFailed
 			}
 		}
-	}
-	user, err = s.userRepository.GetViaEmail(ctx, login)
-	if err != nil {
-		if errors.Is(err, model.ErrDbEntityNotFound) {
-			return nil, model.ErrInvalidCredentials
+	} else {
+		user, err = s.userRepository.GetViaEmail(ctx, login)
+		if err != nil {
+			if errors.Is(err, model.ErrDbEntityNotFound) {
+				return nil, model.ErrInvalidCredentials
+			}
+			return nil, model.ErrDbScanFailed
 		}
-		return nil, model.ErrDbScanFailed
 	}
-
+	
 	isPassword := passwordUtils.CheckPasswordHash(password, user.PasswordHash)
 	if !isPassword {
 		return nil, model.ErrInvalidCredentials
