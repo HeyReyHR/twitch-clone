@@ -102,7 +102,7 @@ func (x *RegisterRequest) GetRole() v1.Role {
 // Register
 type RegisterResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserUuid      string                 `protobuf:"bytes,1,opt,name=user_uuid,json=userUuid,proto3" json:"user_uuid,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -137,9 +137,9 @@ func (*RegisterResponse) Descriptor() ([]byte, []int) {
 	return file_user_v1_user_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *RegisterResponse) GetUserUuid() string {
+func (x *RegisterResponse) GetUserId() string {
 	if x != nil {
-		return x.UserUuid
+		return x.UserId
 	}
 	return ""
 }
@@ -147,7 +147,7 @@ func (x *RegisterResponse) GetUserUuid() string {
 // GetUser
 type GetUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserUuid      string                 `protobuf:"bytes,1,opt,name=user_uuid,json=userUuid,proto3" json:"user_uuid,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -182,9 +182,9 @@ func (*GetUserRequest) Descriptor() ([]byte, []int) {
 	return file_user_v1_user_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GetUserRequest) GetUserUuid() string {
+func (x *GetUserRequest) GetUserId() string {
 	if x != nil {
-		return x.UserUuid
+		return x.UserId
 	}
 	return ""
 }
@@ -244,11 +244,11 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x03 \x01(\tR\bpassword\x123\n" +
 	"\x15password_confirmation\x18\x04 \x01(\tR\x14passwordConfirmation\x12#\n" +
-	"\x04role\x18\x05 \x01(\x0e2\x0f.common.v1.RoleR\x04role\"/\n" +
-	"\x10RegisterResponse\x12\x1b\n" +
-	"\tuser_uuid\x18\x01 \x01(\tR\buserUuid\"-\n" +
-	"\x0eGetUserRequest\x12\x1b\n" +
-	"\tuser_uuid\x18\x01 \x01(\tR\buserUuid\"6\n" +
+	"\x04role\x18\x05 \x01(\x0e2\x0f.common.v1.RoleR\x04role\"+\n" +
+	"\x10RegisterResponse\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\")\n" +
+	"\x0eGetUserRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"6\n" +
 	"\x0fGetUserResponse\x12#\n" +
 	"\x04user\x18\x01 \x01(\v2\x0f.common.v1.UserR\x04user2\x8c\x01\n" +
 	"\vUserService\x12?\n" +
