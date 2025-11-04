@@ -4,8 +4,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/HeyReyHR/twitch-clone/iam/internal/model"
 	"github.com/google/uuid"
+
+	"github.com/HeyReyHR/twitch-clone/iam/internal/model"
 )
 
 func (r *repository) CreateRefreshToken(ctx context.Context, userId, refreshToken string, expiresAt time.Duration) (string, error) {

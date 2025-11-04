@@ -49,7 +49,11 @@ func isValidUsername(username string) bool {
 	if len(username) < 3 || len(username) > 30 {
 		return false
 	}
-	matched, _ := regexp.MatchString(`^[a-zA-Z0-9_]+$`, username)
+	matched, err := regexp.MatchString(`^[a-zA-Z0-9_]+$`, username)
+	if err != nil {
+		return false
+	}
+
 	return matched
 }
 

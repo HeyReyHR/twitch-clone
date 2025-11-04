@@ -1,9 +1,10 @@
 package convert
 
 import (
+	"google.golang.org/protobuf/types/known/timestamppb"
+
 	"github.com/HeyReyHR/twitch-clone/iam/internal/model"
 	commonV1 "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/common/v1"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func RoleApiToService(role commonV1.Role) model.Role {

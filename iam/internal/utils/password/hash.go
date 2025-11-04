@@ -1,8 +1,9 @@
 package password
 
 import (
-	"github.com/HeyReyHR/twitch-clone/iam/internal/config"
 	"golang.org/x/crypto/bcrypt"
+
+	"github.com/HeyReyHR/twitch-clone/iam/internal/config"
 )
 
 func HashPassword(password string) (string, error) {

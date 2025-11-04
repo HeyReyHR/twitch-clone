@@ -4,9 +4,10 @@ import (
 	"context"
 	"time"
 
+	"github.com/google/uuid"
+
 	"github.com/HeyReyHR/twitch-clone/iam/internal/model"
 	repoModel "github.com/HeyReyHR/twitch-clone/iam/internal/repository/model"
-	"github.com/google/uuid"
 )
 
 func (r *repository) Create(ctx context.Context, email, username string, role repoModel.Role, passwordHash string) (string, error) {

@@ -7,11 +7,12 @@ import (
 	"syscall"
 	"time"
 
+	"go.uber.org/zap"
+
 	"github.com/HeyReyHR/twitch-clone/iam/internal/app"
 	"github.com/HeyReyHR/twitch-clone/iam/internal/config"
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/closer"
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/logger"
-	"go.uber.org/zap"
 )
 
 const configPath = ""

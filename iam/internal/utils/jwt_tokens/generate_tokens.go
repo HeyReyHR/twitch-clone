@@ -3,9 +3,10 @@ package jwt_tokens
 import (
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
+
 	"github.com/HeyReyHR/twitch-clone/iam/internal/config"
 	"github.com/HeyReyHR/twitch-clone/iam/internal/model"
-	"github.com/golang-jwt/jwt/v5"
 )
 
 func GenerateTokenPair(user model.User, accessTokenTtl, refreshTokenTtl time.Duration) (*model.TokenPair, error) {
@@ -27,7 +28,7 @@ func GenerateTokenPair(user model.User, accessTokenTtl, refreshTokenTtl time.Dur
 	}, nil
 }
 
-func GenerateAccessToken(userId string, username string, role model.Role, accessTokenTtl time.Duration) (string, time.Time, error) {
+func GenerateAccessToken(userId, username string, role model.Role, accessTokenTtl time.Duration) (string, time.Time, error) {
 	expiresAt := time.Now().Add(accessTokenTtl)
 
 	claims := jwt.MapClaims{
@@ -48,7 +49,7 @@ func GenerateAccessToken(userId string, username string, role model.Role, access
 	return tokenString, expiresAt, nil
 }
 
-func GenerateRefreshToken(userId string, username string, role model.Role, refreshTokenTtl time.Duration) (string, time.Time, error) {
+func GenerateRefreshToken(userId, username string, role model.Role, refreshTokenTtl time.Duration) (string, time.Time, error) {
 	expiresAt := time.Now().Add(refreshTokenTtl)
 
 	claims := jwt.MapClaims{

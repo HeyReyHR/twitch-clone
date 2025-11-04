@@ -71,7 +71,7 @@ tasks:
         for module in {{.MODULES}}; do
           if [ -d "$module" ]; then
             echo "🎯 Sorting imports in $module"
-            find $module -type f -name '*.go' ! -path '*/mocks/*' -exec {{.GCI}} write -s standard -s default -s "prefix(github.com/olezhek28/microservices-course-olezhek-solution)" {} +
+            find $module -type f -name '*.go' ! -path '*/mocks/*' -exec {{.GCI}} write -s standard -s default -s "prefix(github.com/HeyReyHR/twitch-clone)" {} +
           fi
         done
 
@@ -115,7 +115,7 @@ tasks:
         for mod in {{.MODULES}}; do
           if [ -d "$mod" ]; then
             echo "🔍 Linting $mod module"
-            {{.GOLANGCI_LINT}} run $mod/... --config=.golangci.yml || ERR=1
+            {{.GOLANGCI_LINT}} run $mod/... --config=.golangci.yaml || ERR=1
           fi
         done
         exit $ERR

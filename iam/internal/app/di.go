@@ -4,6 +4,10 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/stdlib"
+	"go.uber.org/zap"
+
 	authV1API "github.com/HeyReyHR/twitch-clone/iam/internal/api/auth/v1"
 	userV1API "github.com/HeyReyHR/twitch-clone/iam/internal/api/user/v1"
 	"github.com/HeyReyHR/twitch-clone/iam/internal/config"
@@ -18,9 +22,6 @@ import (
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/migrator"
 	authV1 "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/auth/v1"
 	userV1 "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/user/v1"
-	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/stdlib"
-	"go.uber.org/zap"
 )
 
 type diContainer struct {

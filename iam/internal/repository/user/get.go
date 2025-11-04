@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 
+	"github.com/jackc/pgx/v5"
+
 	"github.com/HeyReyHR/twitch-clone/iam/internal/model"
 	repoModel "github.com/HeyReyHR/twitch-clone/iam/internal/repository/model"
-	"github.com/jackc/pgx/v5"
 )
 
 func (r *repository) Get(ctx context.Context, userId string) (repoModel.User, error) {

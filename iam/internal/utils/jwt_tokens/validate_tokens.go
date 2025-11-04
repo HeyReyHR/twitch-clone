@@ -3,9 +3,10 @@ package jwt_tokens
 import (
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
+
 	"github.com/HeyReyHR/twitch-clone/iam/internal/config"
 	"github.com/HeyReyHR/twitch-clone/iam/internal/model"
-	"github.com/golang-jwt/jwt/v5"
 )
 
 func ValidateRefreshToken(tokenString string) (*model.Claims, error) {

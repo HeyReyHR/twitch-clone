@@ -38,7 +38,7 @@ func (s *service) Login(ctx context.Context, login, password string) (*model.Tok
 			return nil, model.ErrDbScanFailed
 		}
 	}
-	
+
 	isPassword := passwordUtils.CheckPasswordHash(password, user.PasswordHash)
 	if !isPassword {
 		return nil, model.ErrInvalidCredentials
