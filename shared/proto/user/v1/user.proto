@@ -1,13 +1,25 @@
 syntax = "proto3";
+
 import "common/v1/common.proto";
+import "google/api/annotations.proto";
 
 package user.v1;
 
 option go_package = "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/user/v1;user_v1";
 
 service UserService {
-  rpc Register(RegisterRequest) returns(RegisterResponse);
-  rpc GetUser(GetUserRequest) returns(GetUserResponse);
+  rpc Register(RegisterRequest) returns(RegisterResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/user/register"
+      body: "*"
+    };
+  };
+
+  rpc GetUser(GetUserRequest) returns(GetUserResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/user/{user_id}"
+    };
+  };
 }
 
 // Register
