@@ -26,112 +26,147 @@ static_resources:
                     # ─────────────────────────────────────────
                     - name: iam_service
                       domains: ["*"]
-
-                      cors:
-                        allow_origin_string_match:
-                          - prefix: "*"
-                        allow_methods: GET, PUT, DELETE, POST, OPTIONS
-                        allow_headers: keep-alive,user-agent,cache-control,content-type,authorization,access-token,x-access-token,cookie
-                        max_age: "1728000"
-                        expose_headers: x-user-id,x-user-email,x-user-login,x-user-email,x-access-token,x-access-token-expires,grpc-status,grpc-message
                       routes:
                         - match:
-                            prefix: "/api/v1/auth"
+                            path: "/api/v1/auth/get-access-token"
                           route:
                             cluster: iam_cluster
-                            timeout: 30s
+                            timeout: 10s
+
+                        - match:
+                            path: "/api/v1/auth/get-refresh-token"
+                          route:
+                            cluster: iam_cluster
+                            timeout: 10s
+
                         - match:
                             path: "/api/v1/auth/login"
-                            route:
-                              cluster: iam_cluster
-                              timeout: 10s
-                            typed_per_filter_config:
-                              envoy.filters.http.ext_authz:
-                                "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
-                                disabled: true
+                          route:
+                            cluster: iam_cluster
+                            timeout: 10s
+                          typed_per_filter_config:
+                            envoy.filters.http.ext_authz:
+                              "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
+                              disabled: true
+
                         - match:
-                            path: "/api/v1/user/register"
-                            route:
-                              cluster: iam_cluster
-                              timeout: 10s
-                            typed_per_filter_config:
-                              envoy.filters.http.ext_authz:
-                                "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
-                                disabled: true
+                            path: "/api/v1/users/register"
+                          route:
+                            cluster: iam_cluster
+                            timeout: 10s
+                          typed_per_filter_config:
+                            envoy.filters.http.ext_authz:
+                              "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
+                              disabled: true
+                        - match:
+                            prefix: "/api/v1/users"
+                          route:
+                            cluster: iam_cluster
+                            timeout: 10s
+
                         - match:
                             path: "/health"
-                            route:
-                              cluster: iam_cluster
-                              timeout: 5s
-                            typed_per_filter_config:
-                              envoy.filters.http.ext_authz:
-                                "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
-                                disabled: true
-              http_filters:
+                          route:
+                            cluster: iam_cluster
+                            timeout: 5s
+                          typed_per_filter_config:
+                            envoy.filters.http.ext_authz:
+                              "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
+                              disabled: true
 
-                # 1. CORS
-                - name: envoy.filters.http.cors
-                  typed_config:
-                    "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.Cors
+                        - match:
+                            prefix: "/"
+                          direct_response:
+                            status: 404
+                            body:
+                              inline_string: |
+                                {
+                                  "error": "Not Found",
+                                  "message": "Available endpoints: /api/v1/auth",
+                                  "authentication": {
+                                    "required": true,
+                                    "methods": [
+                                      "Header: Access-Token: <id>",
+                                      "Header: X-Access-Token: <id>", 
+                                      "Header: Authorization: Bearer <id>",
+                                      "Cookie: X-Access-Token=<id>"
+                                    ],
+                                  }
+                                }
 
-                # 2. ⚠️ EXTERNAL AUTHORIZATION (gRPC)
-                - name: envoy.filters.http.ext_authz
-                  typed_config:
-                    "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+                http_filters:
 
-                    grpc_service:
-                      envoy_grpc:
-                        cluster_name: iam_cluster
-                      timeout: 2s
-                    failure_mode_allow: false
+                  # 1. CORS
+                  - name: envoy.filters.http.cors
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.Cors
 
-                    with_request_body:
-                      max_request_bytes: 8192
-                      allow_partial_message: true
-                      pack_as_bytes: false
+                  # 2. ⚠️ EXTERNAL AUTHORIZATION (gRPC)
+                  - name: envoy.filters.http.ext_authz
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
 
-                    include_peer_certificate: false
+                      grpc_service:
+                        envoy_grpc:
+                          cluster_name: iam_cluster
+                        timeout: 2s
+                      failure_mode_allow: false
 
-                    allowed_headers:
-                      patterns:
-                        - exact: "authorization"    # Bearer token
-                        - exact: "cookie"           # Access token cookies
-                        - exact: "access-token"     # Custom header
-                        - exact: "x-access-token"   # Alt header
-                        - exact: "user-agent"       # For analysis
-                        - exact: "x-forwarded-for"  # Client api
-                        - exact: "x-real-ip"        # Real IP
-                        - exact: "host"             # Host
+                      with_request_body:
+                        max_request_bytes: 8192
+                        allow_partial_message: true
+                        pack_as_bytes: false
 
-                # 3. gRPC JSON Transcoders
-                - name: envoy.filters.http.grpc_json_transcoder
-                  typed_config:
-                    "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
-                    proto_descriptor: "/etc/envoy/auth_descriptor.pb"
-                    services:
-                      - "auth.v1.AuthService"
-                    match_incoming_request_route: true
-                    print_options:
-                      add_whitespace: true
-                      always_print_primitive_fields: true
-                      preserve_proto_field_names: true
+                      include_peer_certificate: false
 
-                - name: envoy.filters.http.grpc_json_transcoder
-                  typed_config:
-                    "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
-                    proto_descriptor: "/etc/envoy/user_descriptor.pb"
-                    services:
-                      - "user.v1.UserService"
-                    match_incoming_request_route: true
-                    print_options:
-                      add_whitespace: true
-                      always_print_primitive_fields: true
-                      preserve_proto_field_names: true
+                      allowed_headers:
+                        patterns:
+                          - exact: "authorization"    # Bearer token
+                          - exact: "cookie"           # Access token cookies
+                          - exact: "access-token"     # Custom header
+                          - exact: "x-access-token"   # Alt header
+                          - exact: "user-agent"       # For analysis
+                          - exact: "x-forwarded-for"  # Client api
+                          - exact: "x-real-ip"        # Real IP
+                          - exact: "host"             # Host
 
-                # 4. Router filter
-                - name: envoy.filters.http.router
-                  typed_config:
-                    "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+                  # 3. gRPC JSON Transcoders
+                  - name: envoy.filters.http.grpc_json_transcoder
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
+                      proto_descriptor: "/etc/envoy/auth_descriptor.pb"
+                      services:
+                        - "auth.v1.AuthService"
+                      match_incoming_request_route: true
+                      print_options:
+                        add_whitespace: true
+                        always_print_primitive_fields: true
+                        preserve_proto_field_names: true
+                        always_print_enums_as_ints: false
+                      ignore_unknown_query_parameters: true
+                      convert_grpc_status: true
+                      auto_mapping: true
+
+                  - name: envoy.filters.http.grpc_json_transcoder
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
+                      proto_descriptor: "/etc/envoy/user_descriptor.pb"
+                      services:
+                        - "user.v1.UserService"
+                      match_incoming_request_route: true
+                      print_options:
+                        add_whitespace: true
+                        always_print_primitive_fields: true
+                        preserve_proto_field_names: true
+                        always_print_enums_as_ints: false
+                      ignore_unknown_query_parameters: true
+                      convert_grpc_status: true
+                      auto_mapping: true
+
+                  # 4. Router filter
+                  - name: envoy.filters.http.router
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
   clusters:
     # IAM gRPC Service Cluster
     - name: iam_cluster

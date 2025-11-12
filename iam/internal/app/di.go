@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	authv3 "github.com/envoyproxy/go-control-plane/envoy/service/auth/v3"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/stdlib"
 	"go.uber.org/zap"
@@ -26,6 +27,7 @@ import (
 
 type diContainer struct {
 	authV1API authV1.AuthServiceServer
+	authV3API authv3.AuthorizationServer
 	userV1API userV1.UserServiceServer
 
 	authService service.AuthService
@@ -39,6 +41,13 @@ type diContainer struct {
 
 func NewDiContainer() *diContainer {
 	return &diContainer{}
+}
+
+func (d *diContainer) AuthV3API(ctx context.Context) authv3.AuthorizationServer {
+	if d.authV3API == nil {
+		d.authV3API = authV1API.NewApi(d.AuthService(ctx))
+	}
+	return d.authV3API
 }
 
 func (d *diContainer) AuthV1API(ctx context.Context) authV1.AuthServiceServer {

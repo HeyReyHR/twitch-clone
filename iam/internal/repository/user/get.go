@@ -4,7 +4,9 @@ import (
 	"context"
 	"errors"
 
+	"github.com/HeyReyHR/twitch-clone/platform/pkg/logger"
 	"github.com/jackc/pgx/v5"
+	"go.uber.org/zap"
 
 	"github.com/HeyReyHR/twitch-clone/iam/internal/model"
 	repoModel "github.com/HeyReyHR/twitch-clone/iam/internal/repository/model"
@@ -25,6 +27,8 @@ func (r *repository) Get(ctx context.Context, userId string) (repoModel.User, er
 		if errors.Is(err, pgx.ErrNoRows) {
 			return repoModel.User{}, model.ErrDbEntityNotFound
 		}
+
+		logger.Debug(ctx, "postgres error", zap.Error(err))
 		return repoModel.User{}, model.ErrDbScanFailed
 	}
 
