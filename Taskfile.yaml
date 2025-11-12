@@ -147,6 +147,15 @@ tasks:
           GOBIN={{.BIN_DIR}} go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@{{.PROTOC_GEN_GO_GRPC_VERSION}}
         }
 
+  proto:update-deps:
+    deps: [ install-buf ]
+    desc: Updates protobuf deps from remote repos (googleapis и т.д.)
+    dir: ./shared/proto
+    cmds:
+      - |
+        echo "🔄 Updating buf dependencies..."
+        {{.BUF}} dep update
+
   proto:gen:
     deps: [ install-buf, proto:install-plugins, proto:lint ]
     desc: Generate go code from proto
@@ -160,6 +169,21 @@ tasks:
     dir: shared/proto
     cmds:
       - '{{.BUF}} lint'
+
+  proto:build:auth:
+    desc: Build auth proto-files
+    deps: [ install-buf, proto:install-plugins ]
+    dir: shared/proto
+    cmds:
+      - 'mkdir -p ../pkg/proto/auth/v1'
+      - '{{.BUF}} build --path auth --path common --as-file-descriptor-set --output "../pkg/proto/auth/v1/auth_descriptor.pb"'
+  proto:build:user:
+    desc: Build user proto-files
+    deps: [ install-buf, proto:install-plugins ]
+    dir: shared/proto
+    cmds:
+      - 'mkdir -p ../pkg/proto/user/v1'
+      - '{{.BUF}} build --path user --path common --as-file-descriptor-set --output "../pkg/proto/user/v1/user_descriptor.pb"'
 
   # DOCKER COMPOSE
   up-core:

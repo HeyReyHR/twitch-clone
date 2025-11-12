@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
 	"os/signal"
 	"syscall"
 	"time"
@@ -15,9 +16,12 @@ import (
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/logger"
 )
 
-const configPath = ""
-
 func main() {
+	configPath := os.Getenv("CONFIG_PATH")
+	if configPath == "" {
+		configPath = "/home/heyrey/cool_projects/twitch-clone/deploy/compose/iam/.env"
+	}
+
 	err := config.Load(configPath)
 	if err != nil {
 		panic(fmt.Errorf("failed to load config: %w", err))

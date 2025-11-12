@@ -1,10 +1,26 @@
 services:
-  placeholder:
-    image: alpine
-    command:
-      [ "sh", "-c", "echo 'This is a placeholder service' && sleep infinity" ]
+  envoy:
+    image: envoyproxy/envoy:v1.34.0
+    container_name: envoy
+    volumes:
+      - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml:ro
+      - ../../../shared/pkg/proto/auth/v1/auth_descriptor.pb:/etc/envoy/auth_descriptor.pb:ro
+      - ../../../shared/pkg/proto/user/v1/user_descriptor.pb:/etc/envoy/user_descriptor.pb:ro
+
+    ports:
+      - "${ENVOY_PORT}:8080"
+      - "${ENVOY_ADMIN_PORT}:8081"
+    environment:
+      - ENVOY_UID=0
+    healthcheck:
+      test: [ "CMD-SHELL", "timeout 1 bash -c '</dev/tcp/localhost/8081'" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     networks:
       - microservices-net
+    restart: unless-stopped
 
   minio:
     container_name: minio
