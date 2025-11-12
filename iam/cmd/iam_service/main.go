@@ -21,7 +21,7 @@ func main() {
 	if configPath == "" {
 		configPath = "/home/heyrey/cool_projects/twitch-clone/deploy/compose/iam/.env"
 	}
-	
+
 	err := config.Load(configPath)
 	if err != nil {
 		panic(fmt.Errorf("failed to load config: %w", err))

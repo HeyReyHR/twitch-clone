@@ -8,13 +8,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/HeyReyHR/twitch-clone/iam/internal/model"
-	"github.com/HeyReyHR/twitch-clone/iam/internal/utils/jwt_tokens"
 	corev3 "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
 	authv3 "github.com/envoyproxy/go-control-plane/envoy/service/auth/v3"
 	typev3 "github.com/envoyproxy/go-control-plane/envoy/type/v3"
 	"google.golang.org/genproto/googleapis/rpc/status"
 	"google.golang.org/grpc/codes"
+
+	"github.com/HeyReyHR/twitch-clone/iam/internal/model"
+	"github.com/HeyReyHR/twitch-clone/iam/internal/utils/jwt_tokens"
 )
 
 const (
@@ -37,7 +38,7 @@ const (
 
 func (a *api) Check(ctx context.Context, req *authv3.CheckRequest) (*authv3.CheckResponse, error) {
 	accessToken, err := extractAccessToken(req)
-	if accessToken == "" {
+	if accessToken == "" || err != nil {
 		return deniedResponse("Missing access token", 403), nil
 	}
 

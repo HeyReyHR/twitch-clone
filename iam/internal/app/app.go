@@ -6,18 +6,19 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/HeyReyHR/twitch-clone/iam/internal/config"
-	"github.com/HeyReyHR/twitch-clone/platform/pkg/closer"
-	"github.com/HeyReyHR/twitch-clone/platform/pkg/logger"
-	errorInterceptor "github.com/HeyReyHR/twitch-clone/platform/pkg/middleware/grpc/error"
-	authV1 "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/auth/v1"
-	userV1 "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/user/v1"
 	authv3 "github.com/envoyproxy/go-control-plane/envoy/service/auth/v3"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/reflection"
+
+	"github.com/HeyReyHR/twitch-clone/iam/internal/config"
+	"github.com/HeyReyHR/twitch-clone/platform/pkg/closer"
+	"github.com/HeyReyHR/twitch-clone/platform/pkg/logger"
+	errorInterceptor "github.com/HeyReyHR/twitch-clone/platform/pkg/middleware/grpc/error"
+	authV1 "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/auth/v1"
+	userV1 "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/user/v1"
 )
 
 type App struct {

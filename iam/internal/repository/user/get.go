@@ -4,12 +4,12 @@ import (
 	"context"
 	"errors"
 
-	"github.com/HeyReyHR/twitch-clone/platform/pkg/logger"
 	"github.com/jackc/pgx/v5"
 	"go.uber.org/zap"
 
 	"github.com/HeyReyHR/twitch-clone/iam/internal/model"
 	repoModel "github.com/HeyReyHR/twitch-clone/iam/internal/repository/model"
+	"github.com/HeyReyHR/twitch-clone/platform/pkg/logger"
 )
 
 func (r *repository) Get(ctx context.Context, userId string) (repoModel.User, error) {
