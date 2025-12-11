@@ -2,14 +2,31 @@ syntax = "proto3";
 
 package auth.v1;
 
+import "google/api/annotations.proto";
+
 option go_package = "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/auth/v1;auth_v1";
 
 service AuthService {
-  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc Login(LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/auth/login"
+      body: "*"
+    };
+  };
 
-  rpc GetAccessToken(GetAccessTokenRequest) returns (GetAccessTokenResponse);
+  rpc GetAccessToken(GetAccessTokenRequest) returns (GetAccessTokenResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/auth/get-access-token"
+      body: "*"
+    };
+  };
 
-  rpc GetRefreshToken(GetRefreshTokenRequest) returns (GetRefreshTokenResponse);
+  rpc GetRefreshToken(GetRefreshTokenRequest) returns (GetRefreshTokenResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/auth/get-refresh-token"
+      body: "*"
+    };
+  };
 }
 
 

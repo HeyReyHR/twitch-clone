@@ -22,6 +22,7 @@ var (
 
 // Auth errors
 var (
+	ErrNoHTTPRequest      = platformErrors.NewInvalidArgumentError(errors.New("no HTTP request found"))
 	ErrInvalidCredentials = platformErrors.NewInvalidArgumentError(errors.New("invalid credentials"))
 	ErrMalformedToken     = platformErrors.NewUnauthenticatedError(errors.New("token's malformed"))
 )
