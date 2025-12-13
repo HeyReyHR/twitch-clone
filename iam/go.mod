@@ -1,6 +1,6 @@
 module github.com/HeyReyHR/twitch-clone/iam
 
-go 1.24.0
+go 1.25.4
 
 require (
 	github.com/HeyReyHR/twitch-clone/platform v0.0.0-20251103201719-bb3df866aa4e

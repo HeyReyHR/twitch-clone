@@ -7,6 +7,7 @@
 package auth_v1
 
 import (
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -311,7 +312,7 @@ var File_auth_v1_auth_proto protoreflect.FileDescriptor
 
 const file_auth_v1_auth_proto_rawDesc = "" +
 	"\n" +
-	"\x12auth/v1/auth.proto\x12\aauth.v1\"@\n" +
+	"\x12auth/v1/auth.proto\x12\aauth.v1\x1a\x1cgoogle/api/annotations.proto\"@\n" +
 	"\fLoginRequest\x12\x14\n" +
 	"\x05login\x18\x01 \x01(\tR\x05login\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\"W\n" +
@@ -325,11 +326,11 @@ const file_auth_v1_auth_proto_rawDesc = "" +
 	"\x16GetRefreshTokenRequest\x12#\n" +
 	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken\">\n" +
 	"\x17GetRefreshTokenResponse\x12#\n" +
-	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken2\xee\x01\n" +
-	"\vAuthService\x126\n" +
-	"\x05Login\x12\x15.auth.v1.LoginRequest\x1a\x16.auth.v1.LoginResponse\x12Q\n" +
-	"\x0eGetAccessToken\x12\x1e.auth.v1.GetAccessTokenRequest\x1a\x1f.auth.v1.GetAccessTokenResponse\x12T\n" +
-	"\x0fGetRefreshToken\x12\x1f.auth.v1.GetRefreshTokenRequest\x1a .auth.v1.GetRefreshTokenResponseBCZAgithub.com/HeyReyHR/twitch-clone/shared/pkg/proto/auth/v1;auth_v1b\x06proto3"
+	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken2\xe2\x02\n" +
+	"\vAuthService\x12U\n" +
+	"\x05Login\x12\x15.auth.v1.LoginRequest\x1a\x16.auth.v1.LoginResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/api/v1/auth/login\x12{\n" +
+	"\x0eGetAccessToken\x12\x1e.auth.v1.GetAccessTokenRequest\x1a\x1f.auth.v1.GetAccessTokenResponse\"(\x82\xd3\xe4\x93\x02\":\x01*\"\x1d/api/v1/auth/get-access-token\x12\x7f\n" +
+	"\x0fGetRefreshToken\x12\x1f.auth.v1.GetRefreshTokenRequest\x1a .auth.v1.GetRefreshTokenResponse\")\x82\xd3\xe4\x93\x02#:\x01*\"\x1e/api/v1/auth/get-refresh-tokenBCZAgithub.com/HeyReyHR/twitch-clone/shared/pkg/proto/auth/v1;auth_v1b\x06proto3"
 
 var (
 	file_auth_v1_auth_proto_rawDescOnce sync.Once

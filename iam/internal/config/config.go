@@ -14,6 +14,7 @@ type config struct {
 	Logger    LoggerConfig
 	IamGRPC   ServiceConfig
 	Postgres  PostgresConfig
+	Minio     MinioConfig
 	JWTTokens JWTTokensConfig
 	Password  PasswordConfig
 }
@@ -43,7 +44,10 @@ func Load(path ...string) error {
 	if err != nil {
 		return err
 	}
-
+	minioCfg, err := env.NewMinioConfig()
+	if err != nil {
+		return err
+	}
 	passwordCfg, err := env.NewPasswordConfig()
 	if err != nil {
 		return err
@@ -53,6 +57,7 @@ func Load(path ...string) error {
 		Logger:    loggerCfg,
 		IamGRPC:   iamCfg,
 		Postgres:  postgresCfg,
+		Minio:     minioCfg,
 		JWTTokens: jwtTokensCfg,
 		Password:  passwordCfg,
 	}

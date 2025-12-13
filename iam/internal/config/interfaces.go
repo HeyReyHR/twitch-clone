@@ -1,6 +1,10 @@
 package config
 
-import "time"
+import (
+	"time"
+
+	"github.com/minio/minio-go/v7/pkg/credentials"
+)
 
 type LoggerConfig interface {
 	Level() string
@@ -26,4 +30,11 @@ type JWTTokensConfig interface {
 
 type PasswordConfig interface {
 	PasswordSalt() string
+}
+
+type MinioConfig interface {
+	Endpoint() string
+	PublicUrl() string
+	Credentials() *credentials.Credentials
+	AvatarBucket() string
 }

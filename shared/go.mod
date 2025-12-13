@@ -1,6 +1,6 @@
 module github.com/HeyReyHR/twitch-clone/shared
 
-go 1.24.0
+go 1.25.4
 
 require (
 	google.golang.org/grpc v1.76.0

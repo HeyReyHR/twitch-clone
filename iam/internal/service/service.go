@@ -9,6 +9,7 @@ import (
 type UserService interface {
 	Register(ctx context.Context, email, username string, role model.Role, password, passwordConfirmation string) (string, error)
 	Get(ctx context.Context, userId string) (*model.User, error)
+	Update(ctx context.Context, userId string, username, email *string, avatar []byte, contentType *string, isStreaming *bool) error
 }
 
 type AuthService interface {
