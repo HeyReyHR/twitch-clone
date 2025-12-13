@@ -9,6 +9,7 @@ import (
 
 type UserRepository interface {
 	Create(ctx context.Context, email, username string, role model.Role, passwordHash string) (string, error)
+	Update(ctx context.Context, userId string, params model.UpdateParams) error
 	Get(ctx context.Context, userId string) (model.User, error)
 	GetViaEmail(ctx context.Context, email string) (model.User, error)
 	GetViaUsername(ctx context.Context, username string) (model.User, error)

@@ -31,11 +31,13 @@ func RoleServiceToApi(role model.Role) commonV1.Role {
 
 func UserServiceToApi(user *model.User) *commonV1.User {
 	return &commonV1.User{
-		UserId:    user.UserId,
-		Username:  user.Username,
-		Email:     user.Email,
-		Role:      RoleServiceToApi(user.Role),
-		CreatedAt: timestamppb.New(user.CreatedAt),
-		UpdatedAt: timestamppb.New(user.UpdatedAt),
+		UserId:      user.UserId,
+		Username:    user.Username,
+		Email:       user.Email,
+		AvatarUrl:   user.AvatarUrl,
+		IsStreaming: user.IsStreaming,
+		Role:        RoleServiceToApi(user.Role),
+		CreatedAt:   timestamppb.New(user.CreatedAt),
+		UpdatedAt:   timestamppb.New(user.UpdatedAt),
 	}
 }

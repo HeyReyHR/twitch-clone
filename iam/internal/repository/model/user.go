@@ -8,6 +8,8 @@ type User struct {
 	Email        string    `json:"email"`
 	Role         Role      `json:"role"`
 	PasswordHash string    `json:"password_hash"`
+	AvatarUrl    string    `json:"avatar_url"`
+	IsStreaming  bool      `json:"is_streaming"`
 	UpdatedAt    time.Time `json:"updated_at"`
 	CreatedAt    time.Time `json:"created_at"`
 }

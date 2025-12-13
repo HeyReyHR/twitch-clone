@@ -8,6 +8,7 @@ package user_v1
 
 import (
 	v1 "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/common/v1"
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -234,11 +235,133 @@ func (x *GetUserResponse) GetUser() *v1.User {
 	return nil
 }
 
+// UpdateUser
+type UpdateRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	UserId            string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Username          *string                `protobuf:"bytes,2,opt,name=username,proto3,oneof" json:"username,omitempty"`
+	Email             *string                `protobuf:"bytes,3,opt,name=email,proto3,oneof" json:"email,omitempty"`
+	Avatar            []byte                 `protobuf:"bytes,4,opt,name=avatar,proto3,oneof" json:"avatar,omitempty"`
+	AvatarContentType *string                `protobuf:"bytes,5,opt,name=avatar_content_type,json=avatarContentType,proto3,oneof" json:"avatar_content_type,omitempty"`
+	IsStreaming       *bool                  `protobuf:"varint,6,opt,name=is_streaming,json=isStreaming,proto3,oneof" json:"is_streaming,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *UpdateRequest) Reset() {
+	*x = UpdateRequest{}
+	mi := &file_user_v1_user_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateRequest) ProtoMessage() {}
+
+func (x *UpdateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateRequest.ProtoReflect.Descriptor instead.
+func (*UpdateRequest) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UpdateRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetUsername() string {
+	if x != nil && x.Username != nil {
+		return *x.Username
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetEmail() string {
+	if x != nil && x.Email != nil {
+		return *x.Email
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetAvatar() []byte {
+	if x != nil {
+		return x.Avatar
+	}
+	return nil
+}
+
+func (x *UpdateRequest) GetAvatarContentType() string {
+	if x != nil && x.AvatarContentType != nil {
+		return *x.AvatarContentType
+	}
+	return ""
+}
+
+func (x *UpdateRequest) GetIsStreaming() bool {
+	if x != nil && x.IsStreaming != nil {
+		return *x.IsStreaming
+	}
+	return false
+}
+
+// UpdateUser
+type UpdateResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateResponse) Reset() {
+	*x = UpdateResponse{}
+	mi := &file_user_v1_user_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateResponse) ProtoMessage() {}
+
+func (x *UpdateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateResponse.ProtoReflect.Descriptor instead.
+func (*UpdateResponse) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{5}
+}
+
 var File_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_v1_user_proto_rawDesc = "" +
 	"\n" +
-	"\x12user/v1/user.proto\x12\auser.v1\x1a\x16common/v1/common.proto\"\xb9\x01\n" +
+	"\x12user/v1/user.proto\x12\auser.v1\x1a\x16common/v1/common.proto\x1a\x1cgoogle/api/annotations.proto\"\xb9\x01\n" +
 	"\x0fRegisterRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
@@ -250,10 +373,24 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\x0eGetUserRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"6\n" +
 	"\x0fGetUserResponse\x12#\n" +
-	"\x04user\x18\x01 \x01(\v2\x0f.common.v1.UserR\x04user2\x8c\x01\n" +
-	"\vUserService\x12?\n" +
-	"\bRegister\x12\x18.user.v1.RegisterRequest\x1a\x19.user.v1.RegisterResponse\x12<\n" +
-	"\aGetUser\x12\x17.user.v1.GetUserRequest\x1a\x18.user.v1.GetUserResponseBCZAgithub.com/HeyReyHR/twitch-clone/shared/pkg/proto/user/v1;user_v1b\x06proto3"
+	"\x04user\x18\x01 \x01(\v2\x0f.common.v1.UserR\x04user\"\xa9\x02\n" +
+	"\rUpdateRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1f\n" +
+	"\busername\x18\x02 \x01(\tH\x00R\busername\x88\x01\x01\x12\x19\n" +
+	"\x05email\x18\x03 \x01(\tH\x01R\x05email\x88\x01\x01\x12\x1b\n" +
+	"\x06avatar\x18\x04 \x01(\fH\x02R\x06avatar\x88\x01\x01\x123\n" +
+	"\x13avatar_content_type\x18\x05 \x01(\tH\x03R\x11avatarContentType\x88\x01\x01\x12&\n" +
+	"\fis_streaming\x18\x06 \x01(\bH\x04R\visStreaming\x88\x01\x01B\v\n" +
+	"\t_usernameB\b\n" +
+	"\x06_emailB\t\n" +
+	"\a_avatarB\x16\n" +
+	"\x14_avatar_content_typeB\x0f\n" +
+	"\r_is_streaming\"\x10\n" +
+	"\x0eUpdateResponse2\xac\x02\n" +
+	"\vUserService\x12b\n" +
+	"\bRegister\x12\x18.user.v1.RegisterRequest\x1a\x19.user.v1.RegisterResponse\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/api/v1/users/register\x12]\n" +
+	"\aGetUser\x12\x17.user.v1.GetUserRequest\x1a\x18.user.v1.GetUserResponse\"\x1f\x82\xd3\xe4\x93\x02\x19\x12\x17/api/v1/users/{user_id}\x12Z\n" +
+	"\x06Update\x12\x16.user.v1.UpdateRequest\x1a\x17.user.v1.UpdateResponse\"\x1f\x82\xd3\xe4\x93\x02\x192\x17/api/v1/users/{user_id}BCZAgithub.com/HeyReyHR/twitch-clone/shared/pkg/proto/user/v1;user_v1b\x06proto3"
 
 var (
 	file_user_v1_user_proto_rawDescOnce sync.Once
@@ -267,24 +404,28 @@ func file_user_v1_user_proto_rawDescGZIP() []byte {
 	return file_user_v1_user_proto_rawDescData
 }
 
-var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_user_v1_user_proto_goTypes = []any{
 	(*RegisterRequest)(nil),  // 0: user.v1.RegisterRequest
 	(*RegisterResponse)(nil), // 1: user.v1.RegisterResponse
 	(*GetUserRequest)(nil),   // 2: user.v1.GetUserRequest
 	(*GetUserResponse)(nil),  // 3: user.v1.GetUserResponse
-	(v1.Role)(0),             // 4: common.v1.Role
-	(*v1.User)(nil),          // 5: common.v1.User
+	(*UpdateRequest)(nil),    // 4: user.v1.UpdateRequest
+	(*UpdateResponse)(nil),   // 5: user.v1.UpdateResponse
+	(v1.Role)(0),             // 6: common.v1.Role
+	(*v1.User)(nil),          // 7: common.v1.User
 }
 var file_user_v1_user_proto_depIdxs = []int32{
-	4, // 0: user.v1.RegisterRequest.role:type_name -> common.v1.Role
-	5, // 1: user.v1.GetUserResponse.user:type_name -> common.v1.User
+	6, // 0: user.v1.RegisterRequest.role:type_name -> common.v1.Role
+	7, // 1: user.v1.GetUserResponse.user:type_name -> common.v1.User
 	0, // 2: user.v1.UserService.Register:input_type -> user.v1.RegisterRequest
 	2, // 3: user.v1.UserService.GetUser:input_type -> user.v1.GetUserRequest
-	1, // 4: user.v1.UserService.Register:output_type -> user.v1.RegisterResponse
-	3, // 5: user.v1.UserService.GetUser:output_type -> user.v1.GetUserResponse
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
+	4, // 4: user.v1.UserService.Update:input_type -> user.v1.UpdateRequest
+	1, // 5: user.v1.UserService.Register:output_type -> user.v1.RegisterResponse
+	3, // 6: user.v1.UserService.GetUser:output_type -> user.v1.GetUserResponse
+	5, // 7: user.v1.UserService.Update:output_type -> user.v1.UpdateResponse
+	5, // [5:8] is the sub-list for method output_type
+	2, // [2:5] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
 	2, // [2:2] is the sub-list for extension extendee
 	0, // [0:2] is the sub-list for field type_name
@@ -295,13 +436,14 @@ func file_user_v1_user_proto_init() {
 	if File_user_v1_user_proto != nil {
 		return
 	}
+	file_user_v1_user_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_v1_user_proto_rawDesc), len(file_user_v1_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

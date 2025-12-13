@@ -8,6 +8,8 @@ type User struct {
 	Email        string
 	Role         Role
 	PasswordHash string
+	AvatarUrl    string
+	IsStreaming  bool
 	UpdatedAt    time.Time
 	CreatedAt    time.Time
 }

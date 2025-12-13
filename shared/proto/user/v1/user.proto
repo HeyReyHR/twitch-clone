@@ -20,6 +20,12 @@ service UserService {
       get: "/api/v1/users/{user_id}"
     };
   };
+
+  rpc Update(UpdateRequest) returns(UpdateResponse){
+    option (google.api.http) = {
+      patch: "/api/v1/users/{user_id}"
+    };
+  }
 }
 
 // Register
@@ -45,4 +51,17 @@ message GetUserRequest{
 message GetUserResponse {
   common.v1.User user = 1;
 }
+
+// UpdateUser
+message UpdateRequest {
+  string user_id = 1;
+  optional string username = 2;
+  optional string email = 3;
+  optional bytes avatar = 4;
+  optional string avatar_content_type = 5;
+  optional bool is_streaming = 6;
+}
+
+// UpdateUser
+message UpdateResponse {}
 

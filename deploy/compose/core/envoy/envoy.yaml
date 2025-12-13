@@ -26,19 +26,16 @@ static_resources:
                     # ─────────────────────────────────────────
                     - name: iam_service
                       domains: ["*"]
+                      typed_per_filter_config:
+                        envoy.filters.http.cors:
+                          "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.CorsPolicy
+                          allow_origin_string_match:
+                            - prefix: "http://localhost:1488"
+                          allow_methods: "GET, POST, PUT, DELETE, OPTIONS"
+                          allow_headers: "*"
+                          expose_headers: "*"
+                          allow_credentials: true
                       routes:
-                        - match:
-                            path: "/api/v1/auth/get-access-token"
-                          route:
-                            cluster: iam_cluster
-                            timeout: 10s
-
-                        - match:
-                            path: "/api/v1/auth/get-refresh-token"
-                          route:
-                            cluster: iam_cluster
-                            timeout: 10s
-
                         - match:
                             path: "/api/v1/auth/login"
                           route:
@@ -50,6 +47,12 @@ static_resources:
                               disabled: true
 
                         - match:
+                            prefix: "/api/v1/auth"
+                          route:
+                            cluster: iam_cluster
+                            timeout: 10s
+
+                        - match:
                             path: "/api/v1/users/register"
                           route:
                             cluster: iam_cluster
@@ -58,6 +61,7 @@ static_resources:
                             envoy.filters.http.ext_authz:
                               "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
                               disabled: true
+
                         - match:
                             prefix: "/api/v1/users"
                           route:
@@ -122,9 +126,9 @@ static_resources:
                       allowed_headers:
                         patterns:
                           - exact: "authorization"    # Bearer token
-                          - exact: "cookie"           # Access token cookies
+                          - exact: "cookie"           # token cookies
                           - exact: "access-token"     # Custom header
-                          - exact: "x-access-token"   # Alt header
+                          - exact: "refresh-token"
                           - exact: "user-agent"       # For analysis
                           - exact: "x-forwarded-for"  # Client api
                           - exact: "x-real-ip"        # Real IP

@@ -10,7 +10,7 @@ services:
     ports:
       - "${EXTERNAL_POSTGRES_PORT}:5432"
     volumes:
-      - order_data:/var/lib/postgresql/data
+      - psql_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
       interval: 10s
@@ -20,32 +20,8 @@ services:
     networks:
       - microservices-net
 
-  iam-server:
-    depends_on:
-      postgres:
-        condition: service_healthy
-    build:
-      context: ../../../
-      dockerfile: deploy/compose/iam/Dockerfile
-    container_name: iam-server
-    env_file:
-      - ./.env
-    volumes:
-      - ./.env:/app/config/.env:ro
-    ports:
-      - "${GRPC_PORT}:${GRPC_PORT}"
-    healthcheck:
-      test: [ "CMD", "/bin/grpc-health-probe", "-addr=0.0.0.0:50051" ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 15s
-    restart: unless-stopped
-    networks:
-      - microservices-net
-
 volumes:
-  order_data:
+  psql_data:
 
 networks:
   microservices-net:

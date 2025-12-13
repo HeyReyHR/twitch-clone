@@ -33,10 +33,16 @@ var (
 	ErrPasswordHashFailed  = platformErrors.NewInternalError(errors.New("password hash failed"))
 )
 
+// Minio errors
+var (
+	ErrUploadFile = platformErrors.NewInternalError(errors.New("could not upload file"))
+)
+
 // PostgreSQL errors
 var (
 	ErrDeletionFailed       = platformErrors.NewInternalError(errors.New("could not delete entity"))
 	ErrDbScanFailed         = platformErrors.NewInternalError(errors.New("db scan failed"))
 	ErrDbEntityNotFound     = platformErrors.NewNotFoundError(errors.New("db entity not found"))
 	ErrCreateDbEntityFailed = platformErrors.NewInternalError(errors.New("create entity failed"))
+	ErrUpdateDbEntityFailed = platformErrors.NewInternalError(errors.New("update entity failed"))
 )

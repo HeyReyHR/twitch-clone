@@ -7,6 +7,7 @@ import (
 	authv3 "github.com/envoyproxy/go-control-plane/envoy/service/auth/v3"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/stdlib"
+	minioGo "github.com/minio/minio-go/v7"
 	"go.uber.org/zap"
 
 	authV1API "github.com/HeyReyHR/twitch-clone/iam/internal/api/auth/v1"
@@ -21,6 +22,8 @@ import (
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/closer"
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/logger"
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/migrator"
+	"github.com/HeyReyHR/twitch-clone/platform/pkg/s3"
+	"github.com/HeyReyHR/twitch-clone/platform/pkg/s3/minio"
 	authV1 "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/auth/v1"
 	userV1 "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/user/v1"
 )
@@ -37,6 +40,9 @@ type diContainer struct {
 	userRepository repository.UserRepository
 
 	postgresDBConn *pgx.Conn
+
+	minioConn   *minioGo.Client
+	minioClient s3.MinioClient
 }
 
 func NewDiContainer() *diContainer {
@@ -80,7 +86,7 @@ func (d *diContainer) AuthService(ctx context.Context) service.AuthService {
 
 func (d *diContainer) UserService(ctx context.Context) service.UserService {
 	if d.userService == nil {
-		d.userService = userService.NewService(d.UserRepository(ctx))
+		d.userService = userService.NewService(d.UserRepository(ctx), d.MinioClient())
 	}
 
 	return d.userService
@@ -129,4 +135,29 @@ func (d *diContainer) PostgresDBConn(ctx context.Context) *pgx.Conn {
 	}
 
 	return d.postgresDBConn
+}
+
+func (d *diContainer) MinioConn() *minioGo.Client {
+	if d.minioConn == nil {
+		conn, err := minioGo.New(config.AppConfig().Minio.Endpoint(), &minioGo.Options{
+			Creds:  config.AppConfig().Minio.Credentials(),
+			Secure: false,
+		})
+		if err != nil {
+			panic(fmt.Sprintf("❌ failed to connect to minio: %s\n", err))
+		}
+
+		d.minioConn = conn
+	}
+	return d.minioConn
+}
+
+func (d *diContainer) MinioClient() s3.MinioClient {
+	if d.minioClient == nil {
+		client := minio.NewMinioClient(logger.Logger(), d.MinioConn(), config.AppConfig().Minio.PublicUrl())
+
+		d.minioClient = client
+	}
+
+	return d.minioClient
 }

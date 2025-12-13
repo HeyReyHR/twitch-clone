@@ -8,12 +8,10 @@ CREATE TABLE refresh_tokens (
 );
 
 CREATE INDEX idx_refresh_tokens_user_id ON refresh_tokens(user_id);
-CREATE INDEX idx_refresh_tokens_token ON refresh_tokens(refresh_token);
 CREATE INDEX idx_refresh_tokens_expires_at ON refresh_tokens(expires_at);
 
 -- +goose Down
 DROP INDEX IF EXISTS idx_refresh_tokens_expires_at;
-DROP INDEX IF EXISTS idx_refresh_tokens_token;
 DROP INDEX IF EXISTS idx_refresh_tokens_user_id;
 
 DROP TABLE IF EXISTS refresh_tokens;

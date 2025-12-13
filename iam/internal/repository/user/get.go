@@ -15,11 +15,14 @@ import (
 func (r *repository) Get(ctx context.Context, userId string) (repoModel.User, error) {
 	var user repoModel.User
 
-	err := r.dbConn.QueryRow(ctx, "SELECT user_id, username, email, role, created_at, updated_at FROM users WHERE user_id = $1", userId).Scan(
+	err := r.dbConn.QueryRow(ctx, "SELECT user_id, username, email, password_hash, role, avatar_url, is_streaming, created_at, updated_at FROM users WHERE user_id = $1", userId).Scan(
 		&user.UserId,
 		&user.Username,
 		&user.Email,
+		&user.PasswordHash,
 		&user.Role,
+		&user.AvatarUrl,
+		&user.IsStreaming,
 		&user.CreatedAt,
 		&user.UpdatedAt,
 	)
