@@ -15,7 +15,6 @@ func (s *service) ValidateStream(ctx context.Context, streamKey string) error {
 	err = s.streamingProducerService.ProduceStreamStarted(ctx, model.StreamStartedEvent{
 		UserId: user.UserId,
 	})
-
 	if err != nil {
 		return err
 	}
