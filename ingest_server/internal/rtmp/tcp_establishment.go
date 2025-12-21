@@ -1,5 +1,0 @@
-package rtmp
-
-func lol() {
-
-}

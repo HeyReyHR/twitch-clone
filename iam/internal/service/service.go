@@ -9,7 +9,9 @@ import (
 type UserService interface {
 	Register(ctx context.Context, email, username string, role model.Role, password, passwordConfirmation string) (string, error)
 	Get(ctx context.Context, userId string) (*model.User, error)
+	GetViaStreamKey(ctx context.Context, streamKey string) (*model.User, error)
 	Update(ctx context.Context, userId string, username, email *string, avatar []byte, contentType *string, isStreaming *bool) error
+	RegenerateKey(ctx context.Context, userId string) (string, error)
 }
 
 type AuthService interface {

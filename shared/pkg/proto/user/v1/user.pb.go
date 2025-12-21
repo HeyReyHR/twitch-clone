@@ -357,6 +357,186 @@ func (*UpdateResponse) Descriptor() ([]byte, []int) {
 	return file_user_v1_user_proto_rawDescGZIP(), []int{5}
 }
 
+// RegenerateStreamKey
+type RegenerateStreamKeyRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RegenerateStreamKeyRequest) Reset() {
+	*x = RegenerateStreamKeyRequest{}
+	mi := &file_user_v1_user_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegenerateStreamKeyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegenerateStreamKeyRequest) ProtoMessage() {}
+
+func (x *RegenerateStreamKeyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegenerateStreamKeyRequest.ProtoReflect.Descriptor instead.
+func (*RegenerateStreamKeyRequest) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *RegenerateStreamKeyRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+// RegenerateStreamKey
+type RegenerateStreamKeyResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	StreamKey     string                 `protobuf:"bytes,1,opt,name=stream_key,json=streamKey,proto3" json:"stream_key,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RegenerateStreamKeyResponse) Reset() {
+	*x = RegenerateStreamKeyResponse{}
+	mi := &file_user_v1_user_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegenerateStreamKeyResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegenerateStreamKeyResponse) ProtoMessage() {}
+
+func (x *RegenerateStreamKeyResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegenerateStreamKeyResponse.ProtoReflect.Descriptor instead.
+func (*RegenerateStreamKeyResponse) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *RegenerateStreamKeyResponse) GetStreamKey() string {
+	if x != nil {
+		return x.StreamKey
+	}
+	return ""
+}
+
+// GetUserViaStreamKey
+type GetUserViaStreamKeyRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	StreamKey     string                 `protobuf:"bytes,1,opt,name=stream_key,json=streamKey,proto3" json:"stream_key,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserViaStreamKeyRequest) Reset() {
+	*x = GetUserViaStreamKeyRequest{}
+	mi := &file_user_v1_user_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserViaStreamKeyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserViaStreamKeyRequest) ProtoMessage() {}
+
+func (x *GetUserViaStreamKeyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserViaStreamKeyRequest.ProtoReflect.Descriptor instead.
+func (*GetUserViaStreamKeyRequest) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *GetUserViaStreamKeyRequest) GetStreamKey() string {
+	if x != nil {
+		return x.StreamKey
+	}
+	return ""
+}
+
+// GetUserViaStreamKey
+type GetUserViaStreamKeyResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	User          *v1.User               `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserViaStreamKeyResponse) Reset() {
+	*x = GetUserViaStreamKeyResponse{}
+	mi := &file_user_v1_user_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserViaStreamKeyResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserViaStreamKeyResponse) ProtoMessage() {}
+
+func (x *GetUserViaStreamKeyResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_v1_user_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserViaStreamKeyResponse.ProtoReflect.Descriptor instead.
+func (*GetUserViaStreamKeyResponse) Descriptor() ([]byte, []int) {
+	return file_user_v1_user_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetUserViaStreamKeyResponse) GetUser() *v1.User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
 var File_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_v1_user_proto_rawDesc = "" +
@@ -386,11 +566,23 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\a_avatarB\x16\n" +
 	"\x14_avatar_content_typeB\x0f\n" +
 	"\r_is_streaming\"\x10\n" +
-	"\x0eUpdateResponse2\xac\x02\n" +
+	"\x0eUpdateResponse\"5\n" +
+	"\x1aRegenerateStreamKeyRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"<\n" +
+	"\x1bRegenerateStreamKeyResponse\x12\x1d\n" +
+	"\n" +
+	"stream_key\x18\x01 \x01(\tR\tstreamKey\";\n" +
+	"\x1aGetUserViaStreamKeyRequest\x12\x1d\n" +
+	"\n" +
+	"stream_key\x18\x01 \x01(\tR\tstreamKey\"B\n" +
+	"\x1bGetUserViaStreamKeyResponse\x12#\n" +
+	"\x04user\x18\x01 \x01(\v2\x0f.common.v1.UserR\x04user2\x9d\x04\n" +
 	"\vUserService\x12b\n" +
 	"\bRegister\x12\x18.user.v1.RegisterRequest\x1a\x19.user.v1.RegisterResponse\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/api/v1/users/register\x12]\n" +
 	"\aGetUser\x12\x17.user.v1.GetUserRequest\x1a\x18.user.v1.GetUserResponse\"\x1f\x82\xd3\xe4\x93\x02\x19\x12\x17/api/v1/users/{user_id}\x12Z\n" +
-	"\x06Update\x12\x16.user.v1.UpdateRequest\x1a\x17.user.v1.UpdateResponse\"\x1f\x82\xd3\xe4\x93\x02\x192\x17/api/v1/users/{user_id}BCZAgithub.com/HeyReyHR/twitch-clone/shared/pkg/proto/user/v1;user_v1b\x06proto3"
+	"\x06Update\x12\x16.user.v1.UpdateRequest\x1a\x17.user.v1.UpdateResponse\"\x1f\x82\xd3\xe4\x93\x02\x192\x17/api/v1/users/{user_id}\x12\x8c\x01\n" +
+	"\x13RegenerateStreamKey\x12#.user.v1.RegenerateStreamKeyRequest\x1a$.user.v1.RegenerateStreamKeyResponse\"*\x82\xd3\xe4\x93\x02$2\"/api/v1/users/stream_key/{user_id}\x12`\n" +
+	"\x13GetUserViaStreamKey\x12#.user.v1.GetUserViaStreamKeyRequest\x1a$.user.v1.GetUserViaStreamKeyResponseBCZAgithub.com/HeyReyHR/twitch-clone/shared/pkg/proto/user/v1;user_v1b\x06proto3"
 
 var (
 	file_user_v1_user_proto_rawDescOnce sync.Once
@@ -404,31 +596,40 @@ func file_user_v1_user_proto_rawDescGZIP() []byte {
 	return file_user_v1_user_proto_rawDescData
 }
 
-var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_user_v1_user_proto_goTypes = []any{
-	(*RegisterRequest)(nil),  // 0: user.v1.RegisterRequest
-	(*RegisterResponse)(nil), // 1: user.v1.RegisterResponse
-	(*GetUserRequest)(nil),   // 2: user.v1.GetUserRequest
-	(*GetUserResponse)(nil),  // 3: user.v1.GetUserResponse
-	(*UpdateRequest)(nil),    // 4: user.v1.UpdateRequest
-	(*UpdateResponse)(nil),   // 5: user.v1.UpdateResponse
-	(v1.Role)(0),             // 6: common.v1.Role
-	(*v1.User)(nil),          // 7: common.v1.User
+	(*RegisterRequest)(nil),             // 0: user.v1.RegisterRequest
+	(*RegisterResponse)(nil),            // 1: user.v1.RegisterResponse
+	(*GetUserRequest)(nil),              // 2: user.v1.GetUserRequest
+	(*GetUserResponse)(nil),             // 3: user.v1.GetUserResponse
+	(*UpdateRequest)(nil),               // 4: user.v1.UpdateRequest
+	(*UpdateResponse)(nil),              // 5: user.v1.UpdateResponse
+	(*RegenerateStreamKeyRequest)(nil),  // 6: user.v1.RegenerateStreamKeyRequest
+	(*RegenerateStreamKeyResponse)(nil), // 7: user.v1.RegenerateStreamKeyResponse
+	(*GetUserViaStreamKeyRequest)(nil),  // 8: user.v1.GetUserViaStreamKeyRequest
+	(*GetUserViaStreamKeyResponse)(nil), // 9: user.v1.GetUserViaStreamKeyResponse
+	(v1.Role)(0),                        // 10: common.v1.Role
+	(*v1.User)(nil),                     // 11: common.v1.User
 }
 var file_user_v1_user_proto_depIdxs = []int32{
-	6, // 0: user.v1.RegisterRequest.role:type_name -> common.v1.Role
-	7, // 1: user.v1.GetUserResponse.user:type_name -> common.v1.User
-	0, // 2: user.v1.UserService.Register:input_type -> user.v1.RegisterRequest
-	2, // 3: user.v1.UserService.GetUser:input_type -> user.v1.GetUserRequest
-	4, // 4: user.v1.UserService.Update:input_type -> user.v1.UpdateRequest
-	1, // 5: user.v1.UserService.Register:output_type -> user.v1.RegisterResponse
-	3, // 6: user.v1.UserService.GetUser:output_type -> user.v1.GetUserResponse
-	5, // 7: user.v1.UserService.Update:output_type -> user.v1.UpdateResponse
-	5, // [5:8] is the sub-list for method output_type
-	2, // [2:5] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	10, // 0: user.v1.RegisterRequest.role:type_name -> common.v1.Role
+	11, // 1: user.v1.GetUserResponse.user:type_name -> common.v1.User
+	11, // 2: user.v1.GetUserViaStreamKeyResponse.user:type_name -> common.v1.User
+	0,  // 3: user.v1.UserService.Register:input_type -> user.v1.RegisterRequest
+	2,  // 4: user.v1.UserService.GetUser:input_type -> user.v1.GetUserRequest
+	4,  // 5: user.v1.UserService.Update:input_type -> user.v1.UpdateRequest
+	6,  // 6: user.v1.UserService.RegenerateStreamKey:input_type -> user.v1.RegenerateStreamKeyRequest
+	8,  // 7: user.v1.UserService.GetUserViaStreamKey:input_type -> user.v1.GetUserViaStreamKeyRequest
+	1,  // 8: user.v1.UserService.Register:output_type -> user.v1.RegisterResponse
+	3,  // 9: user.v1.UserService.GetUser:output_type -> user.v1.GetUserResponse
+	5,  // 10: user.v1.UserService.Update:output_type -> user.v1.UpdateResponse
+	7,  // 11: user.v1.UserService.RegenerateStreamKey:output_type -> user.v1.RegenerateStreamKeyResponse
+	9,  // 12: user.v1.UserService.GetUserViaStreamKey:output_type -> user.v1.GetUserViaStreamKeyResponse
+	8,  // [8:13] is the sub-list for method output_type
+	3,  // [3:8] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for extension type_name
+	3,  // [3:3] is the sub-list for extension extendee
+	0,  // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_user_v1_user_proto_init() }
@@ -443,7 +644,7 @@ func file_user_v1_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_v1_user_proto_rawDesc), len(file_user_v1_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

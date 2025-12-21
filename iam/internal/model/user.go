@@ -10,6 +10,7 @@ type User struct {
 	PasswordHash string
 	AvatarUrl    string
 	IsStreaming  bool
+	StreamKey    string
 	UpdatedAt    time.Time
 	CreatedAt    time.Time
 }

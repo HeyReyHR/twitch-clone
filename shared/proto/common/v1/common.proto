@@ -12,9 +12,10 @@ message User {
   string email = 3;
   string avatar_url = 4;
   bool is_streaming = 5;
-  Role role = 6;
-  google.protobuf.Timestamp created_at = 7;
-  google.protobuf.Timestamp updated_at = 8;
+  string stream_key = 6;
+  Role role = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
 }
 
 // Role

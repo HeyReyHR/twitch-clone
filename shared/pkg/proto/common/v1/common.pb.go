@@ -80,9 +80,10 @@ type User struct {
 	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
 	AvatarUrl     string                 `protobuf:"bytes,4,opt,name=avatar_url,json=avatarUrl,proto3" json:"avatar_url,omitempty"`
 	IsStreaming   bool                   `protobuf:"varint,5,opt,name=is_streaming,json=isStreaming,proto3" json:"is_streaming,omitempty"`
-	Role          Role                   `protobuf:"varint,6,opt,name=role,proto3,enum=common.v1.Role" json:"role,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	StreamKey     string                 `protobuf:"bytes,6,opt,name=stream_key,json=streamKey,proto3" json:"stream_key,omitempty"`
+	Role          Role                   `protobuf:"varint,7,opt,name=role,proto3,enum=common.v1.Role" json:"role,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -152,6 +153,13 @@ func (x *User) GetIsStreaming() bool {
 	return false
 }
 
+func (x *User) GetStreamKey() string {
+	if x != nil {
+		return x.StreamKey
+	}
+	return ""
+}
+
 func (x *User) GetRole() Role {
 	if x != nil {
 		return x.Role
@@ -177,19 +185,21 @@ var File_common_v1_common_proto protoreflect.FileDescriptor
 
 const file_common_v1_common_proto_rawDesc = "" +
 	"\n" +
-	"\x16common/v1/common.proto\x12\tcommon.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xae\x02\n" +
+	"\x16common/v1/common.proto\x12\tcommon.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcd\x02\n" +
 	"\x04User\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x1d\n" +
 	"\n" +
 	"avatar_url\x18\x04 \x01(\tR\tavatarUrl\x12!\n" +
-	"\fis_streaming\x18\x05 \x01(\bR\visStreaming\x12#\n" +
-	"\x04role\x18\x06 \x01(\x0e2\x0f.common.v1.RoleR\x04role\x129\n" +
+	"\fis_streaming\x18\x05 \x01(\bR\visStreaming\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"stream_key\x18\x06 \x01(\tR\tstreamKey\x12#\n" +
+	"\x04role\x18\a \x01(\x0e2\x0f.common.v1.RoleR\x04role\x129\n" +
 	"\n" +
-	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt*(\n" +
+	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt*(\n" +
 	"\x04Role\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\b\n" +
 	"\x04USER\x10\x01\x12\t\n" +

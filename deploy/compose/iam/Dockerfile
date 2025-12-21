@@ -1,7 +1,7 @@
 # ============================
 # Stage 1: Build stage
 # ============================
-FROM golang:1.24.0-alpine AS builder
+FROM golang:1.25.4-alpine AS builder
 
 RUN apk add --no-cache git
 
