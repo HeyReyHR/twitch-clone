@@ -10,9 +10,9 @@ message User {
   string user_id = 1;
   string username = 2;
   string email = 3;
-  string avatar_url = 4;
+  optional string avatar_url = 4;
   bool is_streaming = 5;
-  string stream_key = 6;
+  optional string stream_key = 6;
   Role role = 7;
   google.protobuf.Timestamp created_at = 8;
   google.protobuf.Timestamp updated_at = 9;

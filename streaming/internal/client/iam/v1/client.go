@@ -17,15 +17,15 @@ func NewUserClient(generatedClient userV1.UserServiceClient) *client {
 	}
 }
 
-func (c *client) GetUserViaStreamKey(ctx context.Context, streamKey string) (model.User, error) {
+func (c *client) GetUserViaStreamKey(ctx context.Context, streamKey string) (*model.User, error) {
 	resp, err := c.generatedClient.GetUserViaStreamKey(ctx, &userV1.GetUserViaStreamKeyRequest{
 		StreamKey: streamKey,
 	})
 	if err != nil {
-		return model.User{}, err
+		return nil, err
 	}
 
-	return model.User{
+	return &model.User{
 		UserId:      resp.GetUser().GetUserId(),
 		Username:    resp.GetUser().GetUsername(),
 		Email:       resp.GetUser().GetEmail(),

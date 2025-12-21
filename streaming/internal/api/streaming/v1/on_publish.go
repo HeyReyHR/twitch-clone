@@ -3,8 +3,9 @@ package v1
 import (
 	"net/http"
 
-	"github.com/HeyReyHR/twitch-clone/streaming/internal/model"
 	"github.com/go-faster/errors"
+
+	"github.com/HeyReyHR/twitch-clone/streaming/internal/model"
 )
 
 func (a *api) OnPublish(w http.ResponseWriter, r *http.Request) {
@@ -19,6 +20,6 @@ func (a *api) OnPublish(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	
+
 	w.WriteHeader(http.StatusOK)
 }

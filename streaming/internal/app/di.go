@@ -4,6 +4,11 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/IBM/sarama"
+	"go.uber.org/zap"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/closer"
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/kafka"
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/kafka/producer"
@@ -17,10 +22,6 @@ import (
 	"github.com/HeyReyHR/twitch-clone/streaming/internal/service"
 	streamingProducer "github.com/HeyReyHR/twitch-clone/streaming/internal/service/producer/streaming_producer"
 	streamingService "github.com/HeyReyHR/twitch-clone/streaming/internal/service/streaming"
-	"github.com/IBM/sarama"
-	"go.uber.org/zap"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 )
 
 type diContainer struct {

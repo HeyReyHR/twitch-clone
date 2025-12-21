@@ -3,12 +3,13 @@ package streaming_producer
 import (
 	"context"
 
+	"go.uber.org/zap"
+	"google.golang.org/protobuf/proto"
+
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/kafka"
 	"github.com/HeyReyHR/twitch-clone/platform/pkg/logger"
 	eventsV1 "github.com/HeyReyHR/twitch-clone/shared/pkg/proto/events/v1"
 	"github.com/HeyReyHR/twitch-clone/streaming/internal/model"
-	"go.uber.org/zap"
-	"google.golang.org/protobuf/proto"
 )
 
 type service struct {

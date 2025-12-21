@@ -7,5 +7,5 @@ import (
 )
 
 type IamClient interface {
-	GetUserViaStreamKey(ctx context.Context, streamKey string) (model.User, error)
+	GetUserViaStreamKey(ctx context.Context, streamKey string) (*model.User, error)
 }

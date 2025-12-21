@@ -18,8 +18,8 @@ vars:
   PROTOC_GEN_GO_GRPC: '{{.BIN_DIR}}/protoc-gen-go-grpc'
   ENVDIR: '{{.ROOT_DIR}}/deploy/env'
 
-  MODULES: iam
-  SERVICES: iam
+  MODULES: iam streaming
+  SERVICES: iam streaming
 
 tasks:
   install-formatters:

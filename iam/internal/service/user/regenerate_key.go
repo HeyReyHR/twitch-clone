@@ -3,8 +3,9 @@ package user
 import (
 	"context"
 
-	repoModel "github.com/HeyReyHR/twitch-clone/iam/internal/repository/model"
 	"github.com/google/uuid"
+
+	repoModel "github.com/HeyReyHR/twitch-clone/iam/internal/repository/model"
 )
 
 func (s *service) RegenerateKey(ctx context.Context, userId string) (string, error) {

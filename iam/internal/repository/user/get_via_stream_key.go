@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 
+	"github.com/jackc/pgx/v5"
+
 	"github.com/HeyReyHR/twitch-clone/iam/internal/model"
 	repoModel "github.com/HeyReyHR/twitch-clone/iam/internal/repository/model"
-	"github.com/jackc/pgx/v5"
 )
 
 func (r *repository) GetViaStreamKey(ctx context.Context, streamKey string) (repoModel.User, error) {

@@ -7,12 +7,13 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/HeyReyHR/twitch-clone/platform/pkg/closer"
-	"github.com/HeyReyHR/twitch-clone/platform/pkg/logger"
-	"github.com/HeyReyHR/twitch-clone/streaming/internal/config"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"go.uber.org/zap"
+
+	"github.com/HeyReyHR/twitch-clone/platform/pkg/closer"
+	"github.com/HeyReyHR/twitch-clone/platform/pkg/logger"
+	"github.com/HeyReyHR/twitch-clone/streaming/internal/config"
 )
 
 const (
@@ -44,7 +45,7 @@ func (a *App) Run(ctx context.Context) error {
 
 	go func() {
 		if err := a.runHTTPServer(ctx); err != nil {
-			errCh <- fmt.Errorf("http server crashed: %v", err)
+			errCh <- fmt.Errorf("http server crashed: %w", err)
 		}
 	}()
 

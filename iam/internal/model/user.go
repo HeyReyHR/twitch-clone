@@ -8,9 +8,9 @@ type User struct {
 	Email        string
 	Role         Role
 	PasswordHash string
-	AvatarUrl    string
+	AvatarUrl    *string
 	IsStreaming  bool
-	StreamKey    string
+	StreamKey    *string
 	UpdatedAt    time.Time
 	CreatedAt    time.Time
 }
