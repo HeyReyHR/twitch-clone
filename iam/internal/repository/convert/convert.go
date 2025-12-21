@@ -35,6 +35,7 @@ func RepoToServiceUser(user repoModel.User) model.User {
 		Email:        user.Email,
 		AvatarUrl:    user.AvatarUrl,
 		IsStreaming:  user.IsStreaming,
+		StreamKey:    user.StreamKey,
 		Role:         RepoToServiceRole(user.Role),
 		UpdatedAt:    user.UpdatedAt,
 		CreatedAt:    user.CreatedAt,

@@ -18,8 +18,8 @@ vars:
   PROTOC_GEN_GO_GRPC: '{{.BIN_DIR}}/protoc-gen-go-grpc'
   ENVDIR: '{{.ROOT_DIR}}/deploy/env'
 
-  MODULES: iam
-  SERVICES: iam
+  MODULES: iam streaming
+  SERVICES: iam streaming
 
 tasks:
   install-formatters:
@@ -199,17 +199,17 @@ tasks:
       - echo "[task] 🛑 Stopping core containers"
       - docker compose down --volumes
 
-  up-media:
-    desc: up media service and its deps
-    dir: deploy/compose/media
+  up-streaming:
+    desc: up streaming service and its deps
+    dir: deploy/compose/streaming
     cmds:
-      - echo "[task] 📦 Setting up Media"
+      - echo "[task] 📦 Setting up Streaming"
       - docker compose up --build --detach
-  down-media:
-    desc: Stop and delete media
-    dir: deploy/compose/media
+  down-streaming:
+    desc: Stop and delete streaming
+    dir: deploy/compose/streaming
     cmds:
-      - echo "[task] 🛑 Stopping Media"
+      - echo "[task] 🛑 Stopping Streaming"
       - docker compose down --volumes
 
   up-iam:

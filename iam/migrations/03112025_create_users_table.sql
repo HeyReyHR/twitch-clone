@@ -7,6 +7,7 @@ CREATE TABLE users (
     password_hash TEXT NOT NULL,
     avatar_url TEXT,
     is_streaming BOOLEAN NOT NULL DEFAULT FALSE,
+    stream_key TEXT UNIQUE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

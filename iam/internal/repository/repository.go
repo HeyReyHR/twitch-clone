@@ -13,6 +13,7 @@ type UserRepository interface {
 	Get(ctx context.Context, userId string) (model.User, error)
 	GetViaEmail(ctx context.Context, email string) (model.User, error)
 	GetViaUsername(ctx context.Context, username string) (model.User, error)
+	GetViaStreamKey(ctx context.Context, streamKey string) (model.User, error)
 }
 
 type AuthRepository interface {

@@ -5,5 +5,6 @@ type UpdateParams struct {
 	Email       *string
 	AvatarUrl   *string
 	IsStreaming *bool
+	StreamKey   *string
 	Role        *string
 }

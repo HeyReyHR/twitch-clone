@@ -36,6 +36,7 @@ func UserServiceToApi(user *model.User) *commonV1.User {
 		Email:       user.Email,
 		AvatarUrl:   user.AvatarUrl,
 		IsStreaming: user.IsStreaming,
+		StreamKey:   user.StreamKey,
 		Role:        RoleServiceToApi(user.Role),
 		CreatedAt:   timestamppb.New(user.CreatedAt),
 		UpdatedAt:   timestamppb.New(user.UpdatedAt),

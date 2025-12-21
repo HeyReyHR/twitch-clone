@@ -40,6 +40,11 @@ func (r *repository) Update(ctx context.Context, userId string, params repoModel
 		args = append(args, *params.IsStreaming)
 		argIndex++
 	}
+	if params.StreamKey != nil {
+		setClauses = append(setClauses, fmt.Sprintf("stream_key = $%d", argIndex))
+		args = append(args, *params.StreamKey)
+		argIndex++
+	}
 
 	if len(setClauses) == 0 {
 		return nil
